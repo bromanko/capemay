@@ -1,7 +1,7 @@
 {
   description = "Cape May";
 
-  inputs.nixpkgs.url = "nixpkgs/nixos-22.05";
+  inputs.nixpkgs.url = "nixpkgs/nixpkgs-unstable";
 
   outputs = { self, nixpkgs }:
     let
@@ -14,5 +14,12 @@
     in {
       packages = forAllSystems
         (system: let pkgs = nixpkgsFor.${system}; in { default = pkgs.hello; });
+
+      devShells = forAllSystems (system:
+        let pkgs = nixpkgsFor.${system};
+        in {
+          default =
+            pkgs.mkShell { buildInputs = with pkgs; [ dotnet-sdk mono ]; };
+        });
     };
 }
