@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Server", "src\CapeMay.Server\CapeMay.Server.fsproj", "{9713FCF1-073B-4C20-BF1E-A40CD50ABB32}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.AdminServer", "src\CapeMay.AdminServer\CapeMay.AdminServer.fsproj", "{9713FCF1-073B-4C20-BF1E-A40CD50ABB32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
