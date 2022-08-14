@@ -23,7 +23,7 @@
         let pkgs = nixpkgsFor.${system};
         in {
           default = pkgs.mkShell {
-            buildInputs = with pkgs; [ dotnet-sdk mono sqlite sqitch ];
+            buildInputs = with pkgs; [ dotnet-sdk mono sqlite sqitch just ];
           };
         });
     };
