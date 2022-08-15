@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.AdminServer", "src\CapeMay.AdminServer\CapeMay.AdminServer.fsproj", "{9713FCF1-073B-4C20-BF1E-A40CD50ABB32}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{E16749DB-68CA-4C00-B4B4-A1904F3AA3AD}"
+	ProjectSection(SolutionItems) = preProject
+		flake.nix = flake.nix
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
