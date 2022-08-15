@@ -2,4 +2,9 @@ source https://api.nuget.org/v3/index.json
 
 storage: none
 framework: net6.0, netstandard2.0, netstandard2.1
+
 nuget Giraffe 6.0.0
+
+// Tests
+nuget FsCheck 3.0.0-beta2
+nuget Expecto.FsCheck 9.0.4
