@@ -1,0 +1,11 @@
+set positional-arguments
+
+default:
+  @just --list
+
+# Find a dotnet package and output the name and latest version
+find-package-latest-version q:
+  #!/usr/bin/env sh
+  pkg=$(dotnet paket find-packages --silent --max 1 $1)
+  ver=$(dotnet paket find-package-versions --silent --max 1 $1)
+  echo $pkg $ver
