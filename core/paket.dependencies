@@ -5,6 +5,7 @@ framework: net6.0, netstandard2.0, netstandard2.1
 
 nuget Giraffe 6.0.0
 nuget FsConfig 3.1.0
+nuget FsHttp 9.1.2
 
 // Tests
 nuget FsCheck 3.0.0-beta2

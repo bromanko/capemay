@@ -2,3 +2,4 @@ FSharp.Core
 FsCheck
 Expecto.FsCheck
 FsConfig
+FsHttp
