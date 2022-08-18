@@ -4,9 +4,14 @@
         <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
+        <Content Include="Paket.references" />
+        <Compile Include="Tenants.fs" />
+        <Compile Include="JsonConverters.fs" />
         <Compile Include="Host.fs" />
         <Compile Include="Main.fs" />
-        <Content Include="Paket.references" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
     </ItemGroup>
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

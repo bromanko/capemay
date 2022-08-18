@@ -1,4 +1,5 @@
-namespace CapeMay.Server
+namespace CapeMay.AdminServer
+
 
 open Microsoft.Extensions.Hosting
 
