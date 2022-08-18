@@ -10,3 +10,4 @@ nuget FsHttp 9.1.2
 // Tests
 nuget FsCheck 3.0.0-beta2
 nuget Expecto.FsCheck 9.0.4
+nuget FsHttp.NewtonsoftJson 9.1.2

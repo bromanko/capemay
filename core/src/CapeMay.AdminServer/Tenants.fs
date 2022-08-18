@@ -19,8 +19,8 @@ module Tenants =
         let getTenants: HttpHandler =
             fun (next: HttpFunc) (ctx: HttpContext) ->
                 task {
-                    let! tenant = readTenants ()
-                    return! json tenant next ctx
+                    let! tenants = readTenants ()
+                    return! json {| Tenants = tenants |} next ctx
                 }
 
     [<Literal>]
