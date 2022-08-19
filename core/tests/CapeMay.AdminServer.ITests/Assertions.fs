@@ -11,3 +11,5 @@ module Assertions =
         resp
 
     let expectStatusCodeOK resp = expectStatusCode resp HttpStatusCode.OK
+
+    let expectStatusCodeCreated resp = expectStatusCode resp HttpStatusCode.Created
