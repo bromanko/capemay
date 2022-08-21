@@ -1,20 +1,13 @@
 namespace CapeMay.AdminServer.ITests.Tenants
 
-open System
+open CapeMay.AdminServer.ITests
 open CapeMay.AdminServer.ITests.Config
-open CapeMay.AdminServer.ITests.Assertions
 open Expecto
 open FsHttp
 open FsHttp.NewtonsoftJson
-open Newtonsoft.Json.Linq
 
 module GetTenantsTests =
     let cfg = loadConfig ()
-
-    let serverPath (cfg: CapeMay.AdminServer.ITests.Config) path =
-        let ub = UriBuilder(cfg.Server.HttpUri)
-        ub.Path <- ub.Path + path
-        ub.ToString()
 
     [<Tests>]
     let tests =

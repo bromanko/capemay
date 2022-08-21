@@ -9,6 +9,7 @@
     <Content Include="paket.references" />
     <Content Include="README.md" />
     <Compile Include="Config.fs" />
+    <Compile Include="HttpHelpers.fs" />
     <Compile Include="Assertions.fs" />
     <Compile Include="Tenants\GetTenantsTests.fs" />
     <Compile Include="Main.fs" />
