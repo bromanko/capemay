@@ -1,4 +1,4 @@
-namespace CapeMay.AdminServer
+namespace CapeMay.Admin.Server
 
 open System
 open Giraffe

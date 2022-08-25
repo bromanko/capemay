@@ -1,6 +1,4 @@
-namespace CapeMay.AdminServer
-
-
+namespace CapeMay.Admin.Server
 
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting

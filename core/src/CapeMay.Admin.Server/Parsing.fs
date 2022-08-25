@@ -1,7 +1,7 @@
-namespace CapeMay.AdminServer
+namespace CapeMay.Admin.Server
 
 open CapeMay.Domain
-open CapeMay.AdminServer.Errors
+open CapeMay.Admin.Server.Errors
 open Giraffe
 open Microsoft.AspNetCore.Http
 
