@@ -14,10 +14,13 @@ module Host =
     let private webApp =
         choose [
             Tenants.routes()
-            RequestErrors.NOT_FOUND "Not Found"
+            Errors.notFoundHandler
         ]
 
-    let private configureApp (app: IApplicationBuilder) = app.UseGiraffe webApp
+    let private configureApp (app: IApplicationBuilder) =
+        app
+            .UseGiraffeErrorHandler(Errors.errorHandler)
+            .UseGiraffe webApp
 
     let private configureJsonSerialization (services: IServiceCollection) =
       let s = JsonSerializerSettings()

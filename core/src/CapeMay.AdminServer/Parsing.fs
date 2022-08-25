@@ -11,13 +11,13 @@ module Parsing =
 
     let tryParseNES str msg =
         match NonEmptyString.parse str with
-        | None -> fail <| Error.InputValidationError msg
+        | None -> fail msg
         | Some n -> ok n
 
     let parseError err = RequestErrors.BAD_REQUEST err
 
     let bindAndParse<'TModelDto, 'TModelParsed>
-        (parse: 'TModelDto -> Result<'TModelParsed, Error>)
+        (parse: 'TModelDto -> Result<'TModelParsed, string>)
         (handler: 'TModelParsed -> HttpHandler)
         : HttpHandler =
         fun (next: HttpFunc) (ctx: HttpContext) ->
@@ -28,5 +28,5 @@ module Parsing =
                 | Result.Ok (parsed, _) -> return! handler parsed next ctx
                 | Result.Bad errs ->
                     return!
-                        json (mkErrorDto "InputValidationError" errs) next ctx
+                        json (mkErrorDto (InputValidationError errs)) next ctx
             }
