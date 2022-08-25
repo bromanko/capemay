@@ -12,6 +12,7 @@
     <Compile Include="HttpHelpers.fs" />
     <Compile Include="Assertions.fs" />
     <Compile Include="Tenants\GetTenantsTests.fs" />
+    <Compile Include="Tenants\CreateTenantTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
