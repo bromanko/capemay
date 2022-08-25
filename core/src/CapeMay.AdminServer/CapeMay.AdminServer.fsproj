@@ -5,7 +5,8 @@
     </PropertyGroup>
     <ItemGroup>
         <Content Include="Paket.references" />
-        <Compile Include="Common.fs" />
+        <Compile Include="Errors.fs" />
+        <Compile Include="Parsing.fs" />
         <Compile Include="Tenants.fs" />
         <Compile Include="JsonConverters.fs" />
         <Compile Include="Host.fs" />

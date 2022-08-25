@@ -36,7 +36,7 @@ module Tenants =
 
             let parse (req: CreateTenantDto) =
                 mkCreateTenant
-                <!> tryParseNES req.Fqdn "FQDN is invalid"
+                <!> tryParseNES req.Fqdn "FQDN is required."
 
             let createTenant (req: CreateTenant) : HttpHandler =
                 fun (next: HttpFunc) (ctx: HttpContext) ->

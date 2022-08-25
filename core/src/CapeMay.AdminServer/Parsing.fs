@@ -1,17 +1,9 @@
 namespace CapeMay.AdminServer
 
 open CapeMay.Domain
+open CapeMay.AdminServer.Errors
 open Giraffe
 open Microsoft.AspNetCore.Http
-open FSharpx
-
-type Error = InputValidationError of string
-
-module Errors =
-    let toStringErr err =
-        match err with
-        | InputValidationError e -> $"Input validation failed. %s{e}"
-        |> String.trim
 
 [<AutoOpen>]
 module Parsing =
@@ -21,10 +13,6 @@ module Parsing =
         match NonEmptyString.parse str with
         | None -> fail <| Error.InputValidationError msg
         | Some n -> ok n
-
-[<AutoOpen>]
-module CommonHandlers =
-    open Chessie.ErrorHandling
 
     let parseError err = RequestErrors.BAD_REQUEST err
 
@@ -38,5 +26,7 @@ module CommonHandlers =
 
                 match parse model with
                 | Result.Ok (parsed, _) -> return! handler parsed next ctx
-                | Result.Bad errs -> return! json "error" next ctx
+                | Result.Bad errs ->
+                    return!
+                        json (mkErrorDto "InputValidationError" errs) next ctx
             }
