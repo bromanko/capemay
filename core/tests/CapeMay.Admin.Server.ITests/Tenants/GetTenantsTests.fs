@@ -1,7 +1,7 @@
-namespace CapeMay.AdminServer.ITests.Tenants
+namespace CapeMay.Admin.Server.ITests.Tenants
 
-open CapeMay.AdminServer.ITests
-open CapeMay.AdminServer.ITests.Config
+open CapeMay.Admin.Server.ITests
+open CapeMay.Admin.Server.ITests.Config
 open Expecto
 open FsHttp
 open FsHttp.NewtonsoftJson

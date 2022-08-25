@@ -1,4 +1,4 @@
-namespace CapeMay.AdminServer.ITests
+namespace CapeMay.Admin.Server.ITests
 
 open FsHttp
 open Expecto

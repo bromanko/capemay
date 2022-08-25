@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{E16749DB-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E255F0CB-3840-4FA8-8758-0E90AAD27D2C}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.AdminServer.ITests", "tests\CapeMay.AdminServer.ITests\CapeMay.AdminServer.ITests.fsproj", "{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Admin.Server.ITests", "tests\CapeMay.Admin.Server.ITests\CapeMay.Admin.Server.ITests.fsproj", "{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Domain", "src\CapeMay.Domain\CapeMay.Domain.fsproj", "{614DA84E-0148-403C-A4B0-404A25E3DC5A}"
 EndProject
