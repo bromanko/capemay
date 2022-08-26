@@ -3,6 +3,7 @@ namespace CapeMay.Admin.Server
 open System
 open Giraffe
 open Microsoft.AspNetCore.Http
+open CapeMay.Admin.Domain
 open CapeMay.Domain
 
 module Tenants =

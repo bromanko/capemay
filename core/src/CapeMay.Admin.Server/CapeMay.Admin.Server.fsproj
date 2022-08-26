@@ -14,6 +14,7 @@
         <Compile Include="Main.fs" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\CapeMay.Admin.Domain\CapeMay.Admin.Domain.fsproj" />
       <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
     </ItemGroup>
     <Import Project="..\..\.paket\Paket.Restore.targets" />

@@ -1,6 +1,8 @@
-namespace CapeMay.Domain
+namespace CapeMay.Admin.Domain
+
 
 open System
+open CapeMay.Domain
 open TryParse
 
 module TenantId =

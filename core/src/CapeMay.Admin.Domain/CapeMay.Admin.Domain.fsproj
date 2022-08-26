@@ -6,7 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Include="Types.fs" />
+      <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="Models.fs" />
     </ItemGroup>
 
 </Project>

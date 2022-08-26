@@ -1,6 +1,7 @@
 namespace CapeMay.Admin.Server
 
 open System
+open CapeMay.Admin.Domain
 open CapeMay.Domain
 open Newtonsoft.Json
 
