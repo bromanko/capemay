@@ -8,19 +8,25 @@ open Microsoft.AspNetCore.Http
 module Parsing =
     open Chessie.ErrorHandling
 
-    let parseError err = RequestErrors.BAD_REQUEST err
+    let private parseErr err next ctx =
+        RequestErrors.badRequest (json (mkErrorDto err)) next ctx
 
-    let bindAndParse<'TModelDto, 'TModelParsed>
+    let bindAndParse<'TModelDto, 'TModelParsed when 'TModelDto: null>
         (parse: 'TModelDto -> Result<'TModelParsed, string>)
         (handler: 'TModelParsed -> HttpHandler)
         : HttpHandler =
         fun (next: HttpFunc) (ctx: HttpContext) ->
             task {
-                let! model = ctx.BindJsonAsync<'TModelDto>()
-
-                match parse model with
-                | Result.Ok (parsed, _) -> return! handler parsed next ctx
-                | Result.Bad errs ->
+                match! ctx.BindJsonAsync<'TModelDto>() with
+                | null ->
                     return!
-                        json (mkErrorDto (InputValidationError errs)) next ctx
+                        parseErr
+                            (InputValidationError [ "Could not parse provided data." ])
+                            next
+                            ctx
+                | model ->
+                    match parse model with
+                    | Result.Ok (parsed, _) -> return! handler parsed next ctx
+                    | Result.Bad errs ->
+                        return! parseErr (InputValidationError errs) next ctx
             }

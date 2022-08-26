@@ -7,8 +7,9 @@ open CapeMay.Admin.Domain
 open CapeMay.Domain
 
 module Tenants =
-    [<CLIMutable>]
-    type CreateTenantDto = { Fqdn: string }
+    [<AllowNullLiteral>]
+    type CreateTenantDto() =
+        member val Fqdn = "" with get, set
 
     type CreateTenant = { Fqdn: NonEmptyString.T }
 
@@ -44,7 +45,7 @@ module Tenants =
                     task {
                         // TODO persist to the database
                         // TODO return the proper object
-                        return! json req next ctx
+                        return! Successful.created (json req) next ctx
                     }
 
     [<Literal>]
