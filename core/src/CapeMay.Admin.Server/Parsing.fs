@@ -1,6 +1,5 @@
 namespace CapeMay.Admin.Server
 
-open CapeMay.Domain
 open CapeMay.Admin.Server.Errors
 open Giraffe
 open Microsoft.AspNetCore.Http
@@ -8,11 +7,6 @@ open Microsoft.AspNetCore.Http
 [<AutoOpen>]
 module Parsing =
     open Chessie.ErrorHandling
-
-    let tryParseNES str msg =
-        match NonEmptyString.parse str with
-        | None -> fail msg
-        | Some n -> ok n
 
     let parseError err = RequestErrors.BAD_REQUEST err
 
