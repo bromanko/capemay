@@ -4,3 +4,4 @@ Expecto.FsCheck
 FsConfig
 FsHttp
 FsHttp.NewtonsoftJson
+Bogus
