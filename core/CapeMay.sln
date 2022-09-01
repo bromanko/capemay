@@ -16,6 +16,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Domain", "src\CapeM
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Admin.Domain", "src\CapeMay.Admin.Domain\CapeMay.Admin.Domain.fsproj", "{F9803FDD-24E6-4F8E-BA5E-8EE230469B22}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Domain.Tests", "tests\CapeMay.Domain.Tests\CapeMay.Domain.Tests.fsproj", "{C065188E-7EF8-4946-829E-811626FF487E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,8 +40,13 @@ Global
 		{F9803FDD-24E6-4F8E-BA5E-8EE230469B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9803FDD-24E6-4F8E-BA5E-8EE230469B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9803FDD-24E6-4F8E-BA5E-8EE230469B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C065188E-7EF8-4946-829E-811626FF487E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C065188E-7EF8-4946-829E-811626FF487E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C065188E-7EF8-4946-829E-811626FF487E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C065188E-7EF8-4946-829E-811626FF487E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
+		{C065188E-7EF8-4946-829E-811626FF487E} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
 	EndGlobalSection
 EndGlobal
