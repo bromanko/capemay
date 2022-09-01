@@ -63,10 +63,15 @@ module Id =
         | [| prefix; unique |] -> Some(prefix, unique)
         | _ -> None
 
-    let parse id =
+    let parsePrefix prefix p =
+        NonEmptyString.parse p
+        >>= someIf (fun p -> p = prefix)
+
+    let parse prefix id =
         splitId id
         >>= fun (p, u) ->
-                mkId' <!> NonEmptyString.parse p
+                mkId'
+                <!> parsePrefix prefix p
                 <*> NonEmptyString.parse u
 
     let toString id = id.ToString()
