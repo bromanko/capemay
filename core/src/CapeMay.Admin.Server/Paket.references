@@ -1,5 +1,4 @@
 Giraffe
-SQLProvider
-System.Data.SQLite
 Chessie
 FSharpx.Extras
+FsConfig

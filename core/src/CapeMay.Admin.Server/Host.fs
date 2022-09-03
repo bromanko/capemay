@@ -10,35 +10,45 @@ open Newtonsoft.Json.Serialization
 
 module Host =
     let private webApp =
-        choose [
-            Tenants.routes()
-            Errors.notFoundHandler
-        ]
+        choose [ Tenants.routes ()
+                 Errors.notFoundHandler ]
 
-    let private configureApp (app: IApplicationBuilder) =
+    let private configureApp
+        (_: CompositionRoot.T)
+        (app: IApplicationBuilder)
+        =
         app
             .UseGiraffeErrorHandler(Errors.errorHandler)
             .UseGiraffe webApp
 
     let private configureJsonSerialization (services: IServiceCollection) =
-      let s = JsonSerializerSettings()
-      s.ContractResolver <- DefaultContractResolver(NamingStrategy = SnakeCaseNamingStrategy())
+        let s = JsonSerializerSettings()
 
-      s.Converters.Add(JsonConverters.TenantIdConverter())
-      s.Converters.Add(JsonConverters.NonEmptyStringConverter())
+        s.ContractResolver <-
+            DefaultContractResolver(NamingStrategy = SnakeCaseNamingStrategy())
 
-      services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(s))
+        s.Converters.Add(JsonConverters.TenantIdConverter())
+        s.Converters.Add(JsonConverters.NonEmptyStringConverter())
 
-    let private configureServices (services: IServiceCollection) =
+        services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(s))
+
+    let private configureServices
+        (_: CompositionRoot.T)
+        (services: IServiceCollection)
+        =
         services.AddGiraffe()
         |> configureJsonSerialization
         |> ignore
 
-    let mkHostBuilder argv =
+    let private mkServerUrls (cfg: Config.ServerConfig) =
+        [| cfg.HttpUri.ToString() |]
+
+    let mkHostBuilder (compRoot: CompositionRoot.T) argv =
         Host
             .CreateDefaultBuilder(argv)
             .ConfigureWebHostDefaults(fun wb ->
                 wb
-                    .Configure(configureApp)
-                    .ConfigureServices(configureServices)
+                    .UseUrls(mkServerUrls compRoot.Config.Server)
+                    .Configure(configureApp compRoot)
+                    .ConfigureServices(configureServices compRoot)
                 |> ignore)
