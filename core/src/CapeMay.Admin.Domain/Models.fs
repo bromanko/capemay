@@ -1,27 +1,19 @@
 namespace CapeMay.Admin.Domain
 
 
-open System
 open CapeMay.Domain
-open TryParse
 
 module TenantId =
-    type T =
-        private
-        | TenantId of Guid
+    type T = Id.T
 
-        override this.ToString() =
-            match this with
-            | TenantId i -> i.ToString()
+    [<Literal>]
+    let private idPrefix =  "ten_"
+    let private idPrefixNes = (NonEmptyString.parse idPrefix).Value
 
-    let parse s =
-        match parseGuid s with
-        | Some id -> Some(TenantId id)
-        | None -> None
+    let create () = Id.mkId idPrefixNes
 
-    let create g = TenantId g
-
-    let value (TenantId t) = t
+    let parse str =
+        Id.parse idPrefixNes str
 
 type Tenant =
     { Id: TenantId.T

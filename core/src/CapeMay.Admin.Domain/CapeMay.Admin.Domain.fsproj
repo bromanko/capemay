@@ -1,16 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
-
     <ItemGroup>
-      <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
+        <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj"/>
     </ItemGroup>
-
     <ItemGroup>
-      <Compile Include="Models.fs" />
+        <Content Include="Paket.references"/>
+        <Compile Include="Models.fs"/>
+        <Compile Include="DataStore.fs"/>
     </ItemGroup>
-
+    <Import Project="..\..\.paket\Paket.Restore.targets"/>
 </Project>

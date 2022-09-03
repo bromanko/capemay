@@ -11,14 +11,15 @@ module Tenants =
     type CreateTenantDto() =
         member val Fqdn = "" with get, set
 
-    type CreateTenant = { Fqdn: NonEmptyString.T }
+    type CreateTenant = { Fqdn: NonEmptyString.T; Id: TenantId.T }
 
     module private Impl =
         module Read =
             let private readTenants () =
                 task {
+                    // TODO read this from the db
                     let tenant =
-                        { Id = TenantId.create (Guid.NewGuid())
+                        { Id = TenantId.create()
                           Fqdn = NonEmptyString.parse("test").Value }
 
                     return [ tenant ]
@@ -34,7 +35,7 @@ module Tenants =
         module Create =
             open Chessie.ErrorHandling
 
-            let mkCreateTenant fqdn = { Fqdn = fqdn }
+            let mkCreateTenant fqdn = { Fqdn = fqdn; Id = TenantId.create() }
 
             let parse (req: CreateTenantDto) =
                 mkCreateTenant
