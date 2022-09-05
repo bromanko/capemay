@@ -9,3 +9,15 @@ find-package-latest-version q:
   pkg=$(dotnet paket find-packages --silent --max 1 $1)
   ver=$(dotnet paket find-package-versions --silent --max 1 $1)
   echo $pkg $ver
+
+# Get the status of a db
+@db-status db:
+  sqitch --chdir db/$1 status db:sqlite:$1.sqlite
+
+# Revert changes to a db
+@db-revert db:
+  sqitch --chdir db/$1 revert db:sqlite:$1.sqlite
+
+# Deploy changes to a db
+@db-deploy db:
+  sqitch --chdir db/$1 deploy db:sqlite:$1.sqlite
