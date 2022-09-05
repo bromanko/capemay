@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP tenants;
+DROP TABLE IF EXISTS tenants;
 
 COMMIT;

@@ -2,6 +2,7 @@
 
 BEGIN;
 
-SELECT fqdn from tenants;
+SELECT id, fqdn, timestamp
+from tenants;
 
 ROLLBACK;

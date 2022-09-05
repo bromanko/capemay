@@ -18,6 +18,31 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Admin.Domain", "src
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Domain.Tests", "tests\CapeMay.Domain.Tests\CapeMay.Domain.Tests.fsproj", "{C065188E-7EF8-4946-829E-811626FF487E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{AEEC7563-79E2-4509-B1B5-22E6CC80E9DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "admin", "admin", "{DC1C5BCE-9019-4F75-B611-384999A9BB5A}"
+	ProjectSection(SolutionItems) = preProject
+		db\admin\admin.sqlite = db\admin\admin.sqlite
+		db\admin\sqitch.conf = db\admin\sqitch.conf
+		db\admin\sqitch.plan = db\admin\sqitch.plan
+		db\admin\sqitch.sqlite = db\admin\sqitch.sqlite
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{670213B4-9B0E-491F-B6C9-70D93223EA9A}"
+	ProjectSection(SolutionItems) = preProject
+		db\admin\deploy\tenants.sql = db\admin\deploy\tenants.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "verify", "verify", "{E7B3A479-984D-48B5-9BAF-F63496DFE992}"
+	ProjectSection(SolutionItems) = preProject
+		db\admin\verify\tenants.sql = db\admin\verify\tenants.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "revert", "revert", "{BC3F90FB-D21D-4D06-A481-8B6F65DF6056}"
+	ProjectSection(SolutionItems) = preProject
+		db\admin\revert\tenants.sql = db\admin\revert\tenants.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +73,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
 		{C065188E-7EF8-4946-829E-811626FF487E} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
+		{DC1C5BCE-9019-4F75-B611-384999A9BB5A} = {AEEC7563-79E2-4509-B1B5-22E6CC80E9DD}
+		{670213B4-9B0E-491F-B6C9-70D93223EA9A} = {DC1C5BCE-9019-4F75-B611-384999A9BB5A}
+		{E7B3A479-984D-48B5-9BAF-F63496DFE992} = {DC1C5BCE-9019-4F75-B611-384999A9BB5A}
+		{BC3F90FB-D21D-4D06-A481-8B6F65DF6056} = {DC1C5BCE-9019-4F75-B611-384999A9BB5A}
 	EndGlobalSection
 EndGlobal
