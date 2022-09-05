@@ -6,13 +6,13 @@ open Microsoft.AspNetCore.Http
 
 [<AutoOpen>]
 module Parsing =
-    open Chessie.ErrorHandling
+    open FsToolkit.ErrorHandling
 
     let private parseErr err next ctx =
         RequestErrors.badRequest (json (mkErrorDto err)) next ctx
 
     let bindAndParse<'TModelDto, 'TModelParsed when 'TModelDto: null>
-        (parse: 'TModelDto -> Result<'TModelParsed, string>)
+        (parse: 'TModelDto -> Validation<'TModelParsed, string>)
         (handler: 'TModelParsed -> HttpHandler)
         : HttpHandler =
         fun (next: HttpFunc) (ctx: HttpContext) ->
@@ -26,7 +26,7 @@ module Parsing =
                             ctx
                 | model ->
                     match parse model with
-                    | Result.Ok (parsed, _) -> return! handler parsed next ctx
-                    | Result.Bad errs ->
+                    | Result.Ok parsed -> return! handler parsed next ctx
+                    | Result.Error errs ->
                         return! parseErr (InputValidationError errs) next ctx
             }

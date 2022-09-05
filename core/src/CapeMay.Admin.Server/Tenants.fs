@@ -31,7 +31,7 @@ module Tenants =
                     }
 
         module Create =
-            open Chessie.ErrorHandling
+            open FsToolkit.ErrorHandling.Operator.Validation
 
             let mkCreateTenant fqdn =
                 { CreateTenant.Fqdn = fqdn
