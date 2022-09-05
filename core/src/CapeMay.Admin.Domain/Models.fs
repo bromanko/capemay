@@ -16,6 +16,10 @@ module TenantId =
 
     let parse str = Id.parse idPrefixNes str
 
+type CreateTenant =
+    { Id: TenantId.T
+      Fqdn: NonEmptyString.T }
+
 type Tenant =
     { Id: TenantId.T
       Fqdn: NonEmptyString.T }

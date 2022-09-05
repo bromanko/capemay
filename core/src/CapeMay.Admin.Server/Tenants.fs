@@ -1,17 +1,15 @@
 namespace CapeMay.Admin.Server
 
-open System
 open Giraffe
 open Microsoft.AspNetCore.Http
 open CapeMay.Admin.Domain
 open CapeMay.Domain
+open CapeMay.Admin.Server
 
 module Tenants =
     [<AllowNullLiteral>]
     type CreateTenantDto() =
         member val Fqdn = "" with get, set
-
-    type CreateTenant = { Fqdn: NonEmptyString.T; Id: TenantId.T }
 
     module private Impl =
         module Read =
@@ -19,7 +17,7 @@ module Tenants =
                 task {
                     // TODO read this from the db
                     let tenant =
-                        { Id = TenantId.create()
+                        { Id = TenantId.create ()
                           Fqdn = NonEmptyString.parse("test").Value }
 
                     return [ tenant ]
@@ -35,25 +33,34 @@ module Tenants =
         module Create =
             open Chessie.ErrorHandling
 
-            let mkCreateTenant fqdn = { Fqdn = fqdn; Id = TenantId.create() }
+            let mkCreateTenant fqdn =
+                { CreateTenant.Fqdn = fqdn
+                  Id = TenantId.create () }
 
             let parse (req: CreateTenantDto) =
                 mkCreateTenant
                 <!> tryParseNES req.Fqdn "FQDN is required."
 
-            let createTenant (req: CreateTenant) : HttpHandler =
+            let createTenant
+                (compRoot: CompositionRoot.T)
+                (t: CreateTenant)
+                : HttpHandler =
                 fun (next: HttpFunc) (ctx: HttpContext) ->
                     task {
-                        // TODO persist to the database
-                        // TODO return the proper object
-                        return! Successful.created (json req) next ctx
+                        let conn = compRoot.DataSource.MakeConnection()
+                        do! conn.OpenAsync()
+                        do! compRoot.DataSource.CreateTenant t conn
+
+                        return! Successful.created (json t) next ctx
                     }
 
     [<Literal>]
     let TenantPath = "/tenant"
 
-    let routes () =
+    let routes compRoot =
         choose [ route TenantPath
                  >=> POST
-                 >=> bindAndParse Impl.Create.parse Impl.Create.createTenant
+                 >=> bindAndParse
+                         Impl.Create.parse
+                         (Impl.Create.createTenant compRoot)
                  route TenantPath >=> GET >=> Impl.Read.getTenants ]

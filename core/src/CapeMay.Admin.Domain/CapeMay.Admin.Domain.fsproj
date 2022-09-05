@@ -5,12 +5,13 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj"/>
+        <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include="Paket.references"/>
-        <Compile Include="Models.fs"/>
-        <Compile Include="DataStore.fs"/>
+        <Content Include="Paket.references" />
+        <Compile Include="Models.fs" />
+        <Compile Include="DataStore.fs" />
+        <Compile Include="Sqlite.fs" />
     </ItemGroup>
-    <Import Project="..\..\.paket\Paket.Restore.targets"/>
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

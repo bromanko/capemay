@@ -9,17 +9,17 @@ open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 
 module Host =
-    let private webApp =
-        choose [ Tenants.routes ()
+    let private webApp compRoot =
+        choose [ Tenants.routes compRoot
                  Errors.notFoundHandler ]
 
     let private configureApp
-        (_: CompositionRoot.T)
+        (compRoot: CompositionRoot.T)
         (app: IApplicationBuilder)
         =
         app
             .UseGiraffeErrorHandler(Errors.errorHandler)
-            .UseGiraffe webApp
+            .UseGiraffe(webApp compRoot)
 
     let private configureJsonSerialization (services: IServiceCollection) =
         let s = JsonSerializerSettings()
@@ -40,8 +40,7 @@ module Host =
         |> configureJsonSerialization
         |> ignore
 
-    let private mkServerUrls (cfg: Config.ServerConfig) =
-        [| cfg.HttpUri.ToString() |]
+    let private mkServerUrls (cfg: ServerConfig) = [| cfg.HttpUri.ToString() |]
 
     let mkHostBuilder (compRoot: CompositionRoot.T) argv =
         Host
