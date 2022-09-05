@@ -7,13 +7,14 @@ module TenantId =
     type T = Id.T
 
     [<Literal>]
-    let private idPrefix =  "ten_"
-    let private idPrefixNes = (NonEmptyString.parse idPrefix).Value
+    let private idPrefix = "ten_"
+
+    let private idPrefixNes =
+        (NonEmptyString.parse idPrefix).Value
 
     let create () = Id.mkId idPrefixNes
 
-    let parse str =
-        Id.parse idPrefixNes str
+    let parse str = Id.parse idPrefixNes str
 
 type Tenant =
     { Id: TenantId.T
