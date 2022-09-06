@@ -7,7 +7,7 @@ module TenantId =
     type T = Id.T
 
     [<Literal>]
-    let private idPrefix = "ten_"
+    let private idPrefix = "ten"
 
     let private idPrefixNes =
         (NonEmptyString.parse idPrefix).Value
