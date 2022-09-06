@@ -1,5 +1,6 @@
 ﻿namespace Vp.FSharp.Sql.Sqlite
 
+open System
 open System.Data
 open System.Threading.Tasks
 open Microsoft.Data.Sqlite
@@ -66,8 +67,7 @@ type internal Constants private () =
         parameter.ParameterName <- name
         match value with
         | Null ->
-            // TODO: Test this since there is no null value in SqliteType
-            ()
+            parameter.Value      <- DBNull.Value
         | Integer value ->
             parameter.SqliteType <- SqliteType.Integer
             parameter.Value      <- value
@@ -79,7 +79,7 @@ type internal Constants private () =
             parameter.Value      <- value
         | Blob value ->
             parameter.SqliteType <- SqliteType.Blob
-            parameter.Value    <- value
+            parameter.Value      <- value
 
         | Custom (dbType, value) ->
             parameter.DbType <- dbType
