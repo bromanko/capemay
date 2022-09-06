@@ -1,13 +1,13 @@
 ﻿namespace Vp.FSharp.Sql.Sqlite
 
 open System.Data
-open System.Data.SQLite
 open System.Threading.Tasks
+open Microsoft.Data.Sqlite
 
 open Vp.FSharp.Sql
 
 
-/// Native SQLite DB types.
+/// Native Sqlite DB types.
 /// See https://www.sqlite.org/datatype3.html
 type SqliteDbValue =
     | Null
@@ -17,39 +17,39 @@ type SqliteDbValue =
     | Blob    of byte array
     | Custom  of DbType * obj
 
-/// SQLite Command Definition
+/// Sqlite Command Definition
 type SqliteCommandDefinition =
     CommandDefinition<
-        SQLiteConnection,
-        SQLiteCommand,
-        SQLiteParameter,
-        SQLiteDataReader,
-        SQLiteTransaction,
+        SqliteConnection,
+        SqliteCommand,
+        SqliteParameter,
+        SqliteDataReader,
+        SqliteTransaction,
         SqliteDbValue>
 
-/// SQLite Configuration
+/// Sqlite Configuration
 type SqliteConfiguration =
     SqlConfigurationCache<
-        SQLiteConnection,
-        SQLiteCommand>
+        SqliteConnection,
+        SqliteCommand>
 
-/// SQLite Dependencies
+/// Sqlite Dependencies
 type SqliteDependencies =
     SqlDependencies<
-        SQLiteConnection,
-        SQLiteCommand,
-        SQLiteParameter,
-        SQLiteDataReader,
-        SQLiteTransaction,
+        SqliteConnection,
+        SqliteCommand,
+        SqliteParameter,
+        SqliteDataReader,
+        SqliteTransaction,
         SqliteDbValue>
 
 [<AbstractClass; Sealed>]
 type internal Constants private () =
 
-    static let beginTransactionAsync (connection: SQLiteConnection) (isolationLevel: IsolationLevel) _ =
+    static let beginTransactionAsync (connection: SqliteConnection) (isolationLevel: IsolationLevel) _ =
         ValueTask.FromResult(connection.BeginTransaction(isolationLevel))
 
-    static let executeReaderAsync (command: SQLiteCommand) _ =
+    static let executeReaderAsync (command: SqliteCommand) _ =
         Task.FromResult(command.ExecuteReader())
 
     static let deps : SqliteDependencies =
@@ -62,22 +62,24 @@ type internal Constants private () =
           DbValueToParameter = Constants.DbValueToParameter }
 
     static member DbValueToParameter name value =
-        let parameter = SQLiteParameter()
+        let parameter = SqliteParameter()
         parameter.ParameterName <- name
         match value with
         | Null ->
-            parameter.TypeName <- "NULL"
+            // TODO: Test this since there is no null type
+            failwith "Not sure if this works."
+            ()
         | Integer value ->
-            parameter.TypeName <- "INTEGER"
-            parameter.Value    <- value
+            parameter.SqliteType <- SqliteType.Integer
+            parameter.Value      <- value
         | Real value ->
-            parameter.TypeName <- "REAL"
-            parameter.Value    <- value
+            parameter.SqliteType <- SqliteType.Real
+            parameter.Value      <- value
         | Text value ->
-            parameter.TypeName <- "TEXT"
-            parameter.Value    <- value
+            parameter.SqliteType <- SqliteType.Text
+            parameter.Value      <- value
         | Blob value ->
-            parameter.TypeName <- "BLOB"
+            parameter.SqliteType <- SqliteType.Blob
             parameter.Value    <- value
 
         | Custom (dbType, value) ->
