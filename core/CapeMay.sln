@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "revert", "revert", "{BC3F90
 		db\admin\revert\tenants.sql = db\admin\revert\tenants.sql
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Vp.FSharp.Sql.Sqlite", "paket-files\github.com\bromanko\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj", "{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{C065188E-7EF8-4946-829E-811626FF487E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C065188E-7EF8-4946-829E-811626FF487E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C065188E-7EF8-4946-829E-811626FF487E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}

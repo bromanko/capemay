@@ -101,3 +101,6 @@ NUGET
       System.Reflection.Emit.Lightweight (>= 4.3)
       System.Threading.Tasks.Extensions (>= 4.4)
       System.ValueTuple (>= 4.4)
+GITHUB
+  remote: bromanko/Vp.FSharp.Sql.Sqlite
+    FULLPROJECT (319bc59c56d69d6dd01006c01e5d8f7ce4f245be)
