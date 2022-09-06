@@ -66,8 +66,7 @@ type internal Constants private () =
         parameter.ParameterName <- name
         match value with
         | Null ->
-            // TODO: Test this since there is no null type
-            failwith "Not sure if this works."
+            // TODO: Test this since there is no null value in SqliteType
             ()
         | Integer value ->
             parameter.SqliteType <- SqliteType.Integer
