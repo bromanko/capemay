@@ -426,4 +426,5 @@ FodyWeavers.xsd
 
 .direnv
 
-*.sqlite
+# Storage of development database files
+db/.local
