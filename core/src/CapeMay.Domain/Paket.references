@@ -1,3 +1,5 @@
 FsToolkit.ErrorHandling
+FsToolkit.ErrorHandling.TaskResult
 FSharpx.Extras
 Nanoid
+Microsoft.Data.Sqlite
