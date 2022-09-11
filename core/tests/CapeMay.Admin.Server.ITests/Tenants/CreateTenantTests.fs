@@ -1,6 +1,5 @@
 namespace CapeMay.Admin.Server.ITests.Tenants
 
-open System.Net
 open CapeMay.Admin.Server.ITests
 open CapeMay.Admin.Server.ITests.Config
 open Expecto
@@ -33,10 +32,11 @@ module CreateTenantTests =
               }
 
               testTask "Creates tenant" {
+                  let toCreate = genTenant()
                   http {
                       POST tenantPath
                       body
-                      jsonSerialize {| fqdn = "foo.bar" |}
+                      jsonSerialize toCreate
                   }
                   |> Request.send
                   |> expectStatusCodeCreated
@@ -44,7 +44,7 @@ module CreateTenantTests =
                   |> fun json ->
                       Expect.equal
                           (json?fqdn.ToObject<string>())
-                          "foo.bar"
+                          toCreate.fqdn
                           "fqdn does not match"
 
                       Expect.isNotNull json?id "id is missing"

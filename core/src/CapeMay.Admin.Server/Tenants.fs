@@ -5,6 +5,7 @@ open Microsoft.AspNetCore.Http
 open CapeMay.Admin.Domain
 open CapeMay.Domain
 open CapeMay.Admin.Server
+open CapeMay.Admin.Server.Errors
 
 module Tenants =
     [<AllowNullLiteral>]
@@ -47,11 +48,9 @@ module Tenants =
                 : HttpHandler =
                 fun (next: HttpFunc) (ctx: HttpContext) ->
                     task {
-                        let conn = compRoot.DataSource.MakeConnection()
-                        do! conn.OpenAsync()
-                        do! compRoot.DataSource.CreateTenant t conn
-
-                        return! Successful.created (json t) next ctx
+                        match! compRoot.Commands.Tenants.CreateAsync t with
+                        | Ok t -> return! Successful.created (json t) next ctx
+                        | Error err -> return! respForDomainErr err next ctx
                     }
 
     [<Literal>]

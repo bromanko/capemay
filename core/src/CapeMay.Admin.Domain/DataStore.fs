@@ -2,14 +2,14 @@ namespace CapeMay.Admin.Domain
 
 open Microsoft.Data.Sqlite
 open FSharpx
+open FsToolkit.ErrorHandling
 open CapeMay.Domain
 open Vp.FSharp.Sql.Sqlite
+open CapeMay.Domain.DataStore
 
 module DataStore =
-    let mkConn (connStr: string) = new SqliteConnection(connStr)
-
     module Tenants =
-        let createTenant (t: CreateTenant) (conn: SqliteConnection) =
+        let createTenant (conn: SqliteConnection) (t: CreateTenant) =
             SqliteCommand.text
                 """
                 INSERT INTO tenants (id, fqdn) VALUES (@id, @fqdn)
@@ -22,4 +22,5 @@ module DataStore =
                                            <| NonEmptyString.value t.Fqdn) ]
             |> SqliteCommand.executeNonQuery conn
             |> Async.StartAsTask
-            |> Task.Ignore
+            |> mapDataStoreErr
+            |> TaskResult.map (fun _ -> { Id = t.Id; Fqdn = t.Fqdn })

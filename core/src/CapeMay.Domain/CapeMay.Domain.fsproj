@@ -7,7 +7,12 @@
   <ItemGroup>
     <Content Include="Paket.references" />
     <Compile Include="Types.fs" />
+    <Compile Include="Errors.fs" />
     <Compile Include="Parsing.fs" />
+    <Compile Include="DataStore.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\paket-files\github.com\bromanko\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

@@ -4,6 +4,7 @@ open FSharpx
 open Giraffe
 open Microsoft.Extensions.Logging
 open System
+open CapeMay.Domain
 
 type Error =
     | InputValidationError of string list
@@ -25,18 +26,23 @@ module Errors =
         | NotFoundError -> "The path specified does not exist."
         |> String.trim
 
-    let private getUnionCaseName (x:'a) =
+    let private getUnionCaseName (x: 'a) =
         match FSharpValue.GetUnionFields(x, typeof<'a>) with
         | case, _ -> case.Name
 
     let mkErrorDto e =
-        {| Type = getUnionCaseName e; Message = toStringErr e |}
+        {| Type = getUnionCaseName e
+           Message = toStringErr e |}
 
-    let private respForEx (ex : Exception) =
+    let private respForEx (ex: exn) =
         let errType, body =
             match ex with
-            | :? Newtonsoft.Json.JsonReaderException as ex -> RequestErrors.badRequest, mkErrorDto (JsonParseError ex.Message)
-            | _ -> ServerErrors.internalError, mkErrorDto (UnhandledError ex.Message)
+            | :? Newtonsoft.Json.JsonReaderException as ex ->
+                RequestErrors.badRequest, mkErrorDto (JsonParseError ex.Message)
+            | _ ->
+                ServerErrors.internalError,
+                mkErrorDto (UnhandledError ex.Message)
+
         errType (json body)
 
     let errorHandler (ex: Exception) (logger: ILogger) =
@@ -48,6 +54,13 @@ module Errors =
 
         clearResponse >=> respForEx ex
 
-    let notFoundHandler : HttpHandler =
-        RequestErrors.notFound (json (mkErrorDto NotFoundError))
+    let respForDomainErr e =
+        match e with
+        | UniquenessError e ->
+            mkErrorDto (InputValidationError [ e ])
+            |> json
+            |> RequestErrors.badRequest
+        | UnhandledException e -> raise e
 
+    let notFoundHandler: HttpHandler =
+        RequestErrors.notFound (json (mkErrorDto NotFoundError))

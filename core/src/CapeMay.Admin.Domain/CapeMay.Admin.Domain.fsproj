@@ -12,6 +12,7 @@
         <Content Include="Paket.references" />
         <Compile Include="Models.fs" />
         <Compile Include="DataStore.fs" />
+        <Compile Include="Commands.fs" />
     </ItemGroup>
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
