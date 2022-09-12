@@ -11,6 +11,14 @@ module CreateTenantTests =
 
     let tenantPath = serverPath cfg "tenant"
 
+    let createTenant t =
+        http {
+            POST tenantPath
+            body
+            jsonSerialize t
+        }
+        |> Request.send
+
     [<Tests>]
     let tests =
         testList
@@ -32,13 +40,9 @@ module CreateTenantTests =
               }
 
               testTask "Creates tenant" {
-                  let toCreate = genTenant()
-                  http {
-                      POST tenantPath
-                      body
-                      jsonSerialize toCreate
-                  }
-                  |> Request.send
+                  let toCreate = genTenant ()
+
+                  createTenant toCreate
                   |> expectStatusCodeCreated
                   |> Response.toJson
                   |> fun json ->
@@ -48,4 +52,19 @@ module CreateTenantTests =
                           "fqdn does not match"
 
                       Expect.isNotNull json?id "id is missing"
+              }
+
+              testTask "Fails on a duplicate tenant" {
+                  let tenant = genTenant ()
+                  createTenant tenant |> ignore
+
+                  createTenant tenant
+                  |> expectStatusCodeBadRequest
+                  |> Response.toJson
+                  |> fun json ->
+                      printfn "%O" json
+                      Expect.equal
+                          (json?``type``.ToObject<string>())
+                          "InputValidationError"
+                          "Did not return expected error code"
               } ]
