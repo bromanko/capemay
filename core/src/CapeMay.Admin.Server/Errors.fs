@@ -28,7 +28,7 @@ module Errors =
 
     let private getUnionCaseName (x: 'a) =
         match FSharpValue.GetUnionFields(x, typeof<'a>) with
-        | case, _ -> case.Name
+        | case, _ -> case.Name |> String.toSnakeCase
 
     let mkErrorDto e =
         {| Type = getUnionCaseName e

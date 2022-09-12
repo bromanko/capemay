@@ -10,6 +10,7 @@
     <Compile Include="Errors.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="DataStore.fs" />
+    <Compile Include="String.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\paket-files\github.com\bromanko\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />

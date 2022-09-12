@@ -19,6 +19,6 @@ module ErrorTests =
                   |> fun json ->
                       Expect.equal
                           (json?``type``.ToObject<string>())
-                          "NotFoundError"
+                          "not_found_error"
                           "Response body did not contain correct error type"
               } ]

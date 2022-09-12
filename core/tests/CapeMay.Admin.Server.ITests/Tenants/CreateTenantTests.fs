@@ -35,7 +35,7 @@ module CreateTenantTests =
                   |> fun json ->
                       Expect.equal
                           (json?``type``.ToObject<string>())
-                          "JsonParseError"
+                          "json_parse_error"
                           "Did not return expected error code"
               }
 
@@ -62,9 +62,8 @@ module CreateTenantTests =
                   |> expectStatusCodeBadRequest
                   |> Response.toJson
                   |> fun json ->
-                      printfn "%O" json
                       Expect.equal
                           (json?``type``.ToObject<string>())
-                          "InputValidationError"
+                          "input_validation_error"
                           "Did not return expected error code"
               } ]
