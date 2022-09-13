@@ -19,7 +19,7 @@ module DataStore =
                                            <| Id.toString t.Id)
                                           ("@fqdn",
                                            SqliteDbValue.Text
-                                           <| NonEmptyString.value t.Fqdn) ]
+                                           <| Fqdn.value t.Fqdn) ]
             |> SqliteCommand.executeNonQuery conn
             |> Async.StartAsTask
             |> mapDataStoreErr

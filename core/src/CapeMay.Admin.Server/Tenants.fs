@@ -3,7 +3,7 @@ namespace CapeMay.Admin.Server
 open Giraffe
 open Microsoft.AspNetCore.Http
 open CapeMay.Admin.Domain
-open CapeMay.Domain
+open CapeMay.Admin.Domain.Parsing
 open CapeMay.Admin.Server
 open CapeMay.Admin.Server.Errors
 
@@ -19,7 +19,7 @@ module Tenants =
                     // TODO read this from the db
                     let tenant =
                         { Id = TenantId.create ()
-                          Fqdn = NonEmptyString.parse("test").Value }
+                          Fqdn = Fqdn.parse("test.foo.com").Value }
 
                     return [ tenant ]
                 }
@@ -40,7 +40,7 @@ module Tenants =
 
             let parse (req: CreateTenantDto) =
                 mkCreateTenant
-                <!> tryParseNES req.Fqdn "FQDN is required."
+                <!> tryParseFqdn req.Fqdn "FQDN is required."
 
             let createTenant
                 (compRoot: CompositionRoot.T)

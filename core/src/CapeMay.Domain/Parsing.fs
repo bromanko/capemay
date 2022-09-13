@@ -4,7 +4,13 @@ namespace CapeMay.Domain
 module Parsing =
     open FsToolkit.ErrorHandling
 
-    let tryParseNES str msg =
-        match NonEmptyString.parse str with
+    let tryParse<'T, 'TErr>
+        (fn: string -> 'T option)
+        (str: string)
+        (msg: 'TErr)
+        : Validation<'T, 'TErr> =
+        match fn str with
         | None -> Validation.error msg
         | Some n -> Validation.ok n
+
+    let tryParseNES = NonEmptyString.parse

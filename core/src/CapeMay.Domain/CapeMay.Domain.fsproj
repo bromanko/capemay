@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Paket.references" />
-    <Compile Include="Types.fs" />
+    <Compile Include="Models.fs" />
     <Compile Include="Errors.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="DataStore.fs" />
