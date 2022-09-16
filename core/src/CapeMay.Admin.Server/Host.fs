@@ -1,5 +1,8 @@
 namespace CapeMay.Admin.Server
 
+open CapeMay.Admin.Domain
+open CapeMay.Admin.Server.JsonConverters
+open CapeMay.Domain
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.AspNetCore.Hosting
@@ -27,8 +30,9 @@ module Host =
         s.ContractResolver <-
             DefaultContractResolver(NamingStrategy = SnakeCaseNamingStrategy())
 
-        s.Converters.Add(JsonConverters.TenantIdConverter())
-        s.Converters.Add(JsonConverters.NonEmptyStringConverter())
+        s.Converters.Add(ParsableConverter(Fqdn.parse))
+        s.Converters.Add(ParsableConverter(TenantId.parse))
+        s.Converters.Add(ParsableConverter(NonEmptyString.parse))
 
         services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(s))
 
