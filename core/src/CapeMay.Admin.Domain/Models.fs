@@ -18,6 +18,8 @@ module TenantId =
     let parse str = Id.parse idPrefixNes str
 
 module Fqdn =
+    open System.Text.RegularExpressions
+
     type T =
         private
         | Fqdn of string
@@ -25,11 +27,15 @@ module Fqdn =
             match this with
             | Fqdn s -> s
 
+    let private fqdnRegex =
+        Regex(
+            "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9]\.)+[a-zA-Z]{2,63}$)"
+        )
+
     let parse str =
-        if String.IsNullOrEmpty str then
-            None
-        else
-            Some(Fqdn str)
+        match fqdnRegex.IsMatch str with
+        | true -> Some <| Fqdn str
+        | false -> None
 
     let value (Fqdn str) = str
 

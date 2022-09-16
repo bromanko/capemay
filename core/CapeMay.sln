@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "revert", "revert", "{BC3F90
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Vp.FSharp.Sql.Sqlite", "paket-files\github.com\bromanko\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj", "{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Admin.Domain.Tests", "tests\CapeMay.Admin.Domain.Tests\CapeMay.Admin.Domain.Tests.fsproj", "{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81FAB7B4-C7BC-4FF8-9A1A-7558E2ACDA4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
@@ -83,5 +89,6 @@ Global
 		{670213B4-9B0E-491F-B6C9-70D93223EA9A} = {DC1C5BCE-9019-4F75-B611-384999A9BB5A}
 		{E7B3A479-984D-48B5-9BAF-F63496DFE992} = {DC1C5BCE-9019-4F75-B611-384999A9BB5A}
 		{BC3F90FB-D21D-4D06-A481-8B6F65DF6056} = {DC1C5BCE-9019-4F75-B611-384999A9BB5A}
+		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
 	EndGlobalSection
 EndGlobal
