@@ -39,6 +39,20 @@ module CreateTenantTests =
                           "Did not return expected error code"
               }
 
+              testTask "Validates fqdn" {
+                  let fqdn = "foo"
+
+                  {| (genTenant ()) with fqdn = fqdn |}
+                  |> createTenant
+                  |> expectStatusCodeBadRequest
+                  |> Response.toJson
+                  |> fun json ->
+                      Expect.stringStarts
+                          (json?message.ToObject<string>())
+                          "Input validation failed. FQDN is invalid."
+                          "Error message was unexpected"
+              }
+
               testTask "Creates tenant" {
                   let toCreate = genTenant ()
 
