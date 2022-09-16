@@ -40,7 +40,7 @@ module Tenants =
 
             let parse (req: CreateTenantDto) =
                 mkCreateTenant
-                <!> tryParseFqdn req.Fqdn "FQDN is required."
+                <!> tryParseFqdn req.Fqdn "FQDN is invalid."
 
             let createTenant
                 (compRoot: CompositionRoot.T)
