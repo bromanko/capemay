@@ -426,5 +426,5 @@ FodyWeavers.xsd
 
 .direnv
 
-# Storage of development database files
-db/.local
+# Storage of database files
+db/.run

@@ -1,23 +1,53 @@
 set positional-arguments
 
+db_dir := "db"
+sqitch := "sqitch --chdir " + db_dir
+
 default:
   @just --list
 
 # Find a dotnet package and output the name and latest version
 find-package-latest-version q:
   #!/usr/bin/env sh
+  set -euo pipefail
   pkg=$(dotnet paket find-packages --silent --max 1 $1)
   ver=$(dotnet paket find-package-versions --silent --max 1 $1)
   echo $pkg $ver
 
+# List all db targets
+@db-targets:
+  {{sqitch}} target
+
 # Get the status of a db
-@db-status db:
-  sqitch --chdir db/$1 status db:sqlite:$1.sqlite
+@db-status TARGET:
+  {{sqitch}} status {{TARGET}}
 
 # Revert changes to a db
-@db-revert db:
-  sqitch --chdir db/$1 revert db:sqlite:$1.sqlite
+@db-revert TARGET:
+  {{sqitch}} revert {{TARGET}}
 
 # Deploy changes to a db
-@db-deploy db:
-  sqitch --chdir db/$1 deploy db:sqlite:$1.sqlite
+@db-deploy TARGET:
+  {{sqitch}} deploy {{TARGET}}
+
+# Create a dab
+db-create TARGET:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  cd {{db_dir}}
+  uri=$(sqitch config --file sqitch.conf --get target.{{TARGET}}.uri | sed 's/.*://')
+  mkdir -p $(dirname $uri)
+  sqlite3 $uri "VACUUM;"
+
+# Delete a db
+db-delete TARGET:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  cd {{db_dir}}
+  uri=$(sqitch config --file sqitch.conf --get target.{{TARGET}}.uri | sed 's/.*://')
+  rm -f $uri
+  registry=$(sqitch config --file sqitch.conf --get target.{{TARGET}}.registry)
+  rm -f $(dirname $uri)/$registry
+
+# Reset a db
+@db-reset TARGET: (db-delete TARGET) (db-create TARGET) (db-deploy TARGET)
