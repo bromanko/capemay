@@ -5,8 +5,11 @@ open CapeMay.Domain
 
 module Commands =
     let createTenant connStr t =
-        task {
-            use conn = mkConn connStr
-            do! conn.OpenAsync()
-            return! DataStore.Tenants.createTenant conn t
-        }
+        use conn = mkConn connStr
+        conn.Open()
+        DataStore.Tenants.createTenant conn t
+
+    let getAllTenants connStr =
+        use conn = mkConn connStr
+        conn.Open()
+        DataStore.Tenants.getTenants conn

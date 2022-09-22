@@ -1,13 +1,13 @@
 namespace CapeMay.Admin.Server
 
-open System.Threading.Tasks
 open CapeMay.Admin.Domain
 open CapeMay.Domain
 
 [<RequireQualifiedAccess>]
 module CompositionRoot =
     type Tenants =
-        { CreateAsync: CreateTenant -> Task<Result<Tenant, DomainError>> }
+        { Create: CreateTenant -> Result<Tenant, DomainError>
+          GetAll: unit -> Result<Tenant list, DomainError> }
 
     type Commands = { Tenants: Tenants }
 
@@ -19,4 +19,6 @@ module CompositionRoot =
         { Config = cfg
           Commands =
             { Tenants =
-                { CreateAsync = Commands.createTenant cfg.Db.ConnectionString } } }
+                { Create = Commands.createTenant cfg.Db.ConnectionString
+                  GetAll =
+                    fun () -> Commands.getAllTenants cfg.Db.ConnectionString } } }

@@ -14,21 +14,14 @@ module Tenants =
 
     module private Impl =
         module Read =
-            let private readTenants () =
-                task {
-                    // TODO read this from the db
-                    let tenant =
-                        { Id = TenantId.create ()
-                          Fqdn = Fqdn.parse("test.foo.com").Value }
-
-                    return [ tenant ]
-                }
-
-            let getTenants: HttpHandler =
+            let getTenants (compRoot: CompositionRoot.T) : HttpHandler =
                 fun (next: HttpFunc) (ctx: HttpContext) ->
                     task {
-                        let! tenants = readTenants ()
-                        return! json {| Tenants = tenants |} next ctx
+                        match compRoot.Commands.Tenants.GetAll() with
+                        | Ok t ->
+                            return!
+                                Successful.ok (json {| tenants = t |}) next ctx
+                        | Error err -> return! respForDomainErr err next ctx
                     }
 
         module Create =
@@ -48,7 +41,7 @@ module Tenants =
                 : HttpHandler =
                 fun (next: HttpFunc) (ctx: HttpContext) ->
                     task {
-                        match! compRoot.Commands.Tenants.CreateAsync t with
+                        match compRoot.Commands.Tenants.Create t with
                         | Ok t -> return! Successful.created (json t) next ctx
                         | Error err -> return! respForDomainErr err next ctx
                     }
@@ -62,4 +55,6 @@ module Tenants =
                  >=> bindAndParse
                          Impl.Create.parse
                          (Impl.Create.createTenant compRoot)
-                 route TenantPath >=> GET >=> Impl.Read.getTenants ]
+                 route TenantPath
+                 >=> GET
+                 >=> Impl.Read.getTenants compRoot ]

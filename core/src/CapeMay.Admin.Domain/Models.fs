@@ -34,9 +34,7 @@ module Fqdn =
 
     let parse str =
         match fqdnRegex.IsMatch str with
-        | true ->
-            printf "All good"
-            Some <| Fqdn str
+        | true -> Some <| Fqdn str
         | false -> None
 
     let value (Fqdn str) = str

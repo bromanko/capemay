@@ -4,11 +4,13 @@ open Microsoft.Data.Sqlite
 open FSharpx
 open FsToolkit.ErrorHandling
 open CapeMay.Domain
+open Vp.FSharp.Sql
 open Vp.FSharp.Sql.Sqlite
 open CapeMay.Domain.DataStore
 
 module DataStore =
     module Tenants =
+
         let createTenant (conn: SqliteConnection) (t: CreateTenant) =
             SqliteCommand.text
                 """
@@ -20,7 +22,24 @@ module DataStore =
                                           ("@fqdn",
                                            SqliteDbValue.Text
                                            <| Fqdn.value t.Fqdn) ]
-            |> SqliteCommand.executeNonQuery conn
-            |> Async.StartAsTask
+            |> Result.protect (SqliteCommand.executeNonQuerySync conn)
             |> mapDataStoreErr
-            |> TaskResult.map (fun _ -> { Id = t.Id; Fqdn = t.Fqdn })
+            |> Result.map (fun _ -> { Id = t.Id; Fqdn = t.Fqdn })
+
+        let mkTenantId (read: SqlRecordReader<_>) =
+            (read.Value<string> "id" |> TenantId.parse).Value
+
+        let mkFqdn (read: SqlRecordReader<_>) =
+            (read.Value<string> "fqdn" |> Fqdn.parse).Value
+
+        let getTenants (conn: SqliteConnection) =
+            let readRow _ _ (read: SqlRecordReader<_>) =
+                { Id = mkTenantId read
+                  Fqdn = mkFqdn read }
+
+            SqliteCommand.text
+                """
+                SELECT id, fqdn FROM tenants LIMIT 1000
+                """
+            |> Result.protect (SqliteCommand.queryListSync conn readRow)
+            |> mapDataStoreErr

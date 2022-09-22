@@ -12,8 +12,8 @@
     <Compile Include="HttpHelpers.fs" />
     <Compile Include="Fixtures.fs" />
     <Compile Include="Assertions.fs" />
-    <Compile Include="Tenants\GetTenantsTests.fs" />
     <Compile Include="Tenants\CreateTenantTests.fs" />
+    <Compile Include="Tenants\GetTenantsTests.fs" />
     <Compile Include="ErrorTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
