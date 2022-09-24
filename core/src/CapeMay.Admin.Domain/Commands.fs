@@ -12,4 +12,6 @@ module Commands =
     let getAllTenants connStr =
         use conn = mkConn connStr
         conn.Open()
+
         DataStore.Tenants.getTenants conn
+        |> Result.map (fun tl -> { Tenants = tl })

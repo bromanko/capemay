@@ -42,3 +42,5 @@ module Fqdn =
 type CreateTenant = { Id: TenantId.T; Fqdn: Fqdn.T }
 
 type Tenant = { Id: TenantId.T; Fqdn: Fqdn.T }
+
+type TenantList = { Tenants: Tenant list }

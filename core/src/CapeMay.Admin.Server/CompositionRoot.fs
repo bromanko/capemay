@@ -7,7 +7,7 @@ open CapeMay.Domain
 module CompositionRoot =
     type Tenants =
         { Create: CreateTenant -> Result<Tenant, DomainError>
-          GetAll: unit -> Result<Tenant list, DomainError> }
+          GetAll: unit -> Result<TenantList, DomainError> }
 
     type Commands = { Tenants: Tenants }
 

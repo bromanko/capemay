@@ -13,17 +13,6 @@ module Tenants =
         member val Fqdn = "" with get, set
 
     module private Impl =
-        module Read =
-            let getTenants (compRoot: CompositionRoot.T) : HttpHandler =
-                fun (next: HttpFunc) (ctx: HttpContext) ->
-                    task {
-                        match compRoot.Commands.Tenants.GetAll() with
-                        | Ok t ->
-                            return!
-                                Successful.ok (json {| tenants = t |}) next ctx
-                        | Error err -> return! respForDomainErr err next ctx
-                    }
-
         module Create =
             open FsToolkit.ErrorHandling.Operator.Validation
 
@@ -57,4 +46,5 @@ module Tenants =
                          (Impl.Create.createTenant compRoot)
                  route TenantPath
                  >=> GET
-                 >=> Impl.Read.getTenants compRoot ]
+                 >=> warbler (fun _ ->
+                     Exec.read compRoot.Commands.Tenants.GetAll) ]
