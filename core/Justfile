@@ -30,7 +30,7 @@ find-package-latest-version q:
 @db-deploy TARGET:
   {{sqitch}} deploy {{TARGET}}
 
-# Create a dab
+# Create a db
 db-create TARGET:
   #!/usr/bin/env bash
   set -euo pipefail
