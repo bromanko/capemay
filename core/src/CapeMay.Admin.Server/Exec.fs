@@ -10,4 +10,6 @@ module Exec =
         | Ok r -> json r |> status
         | Error e -> respForDomainErr e
 
+    let create cmd = respond Successful.created cmd
+
     let read cmd = respond Successful.ok cmd
