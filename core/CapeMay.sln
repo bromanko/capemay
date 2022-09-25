@@ -6,6 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{E16749DB-6
 	ProjectSection(SolutionItems) = preProject
 		flake.nix = flake.nix
 		paket.dependencies = paket.dependencies
+		.envrc = .envrc
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E255F0CB-3840-4FA8-8758-0E90AAD27D2C}"
@@ -47,6 +48,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Vp.FSharp.Sql.Sqlite", "pak
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Admin.Domain.Tests", "tests\CapeMay.Admin.Domain.Tests\CapeMay.Admin.Domain.Tests.fsproj", "{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Consumer.Server", "src\CapeMay.Consumer.Server\CapeMay.Consumer.Server.fsproj", "{8A57F166-F6C2-4636-BCA3-4352F60C0778}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +84,10 @@ Global
 		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A57F166-F6C2-4636-BCA3-4352F60C0778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A57F166-F6C2-4636-BCA3-4352F60C0778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A57F166-F6C2-4636-BCA3-4352F60C0778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A57F166-F6C2-4636-BCA3-4352F60C0778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
