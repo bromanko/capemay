@@ -5,8 +5,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\paket-files\github.com\bromanko\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
+        <PackageReference Include="Vp.FSharp.Sql" Version="*" Condition=" '$(ContinuousIntegrationBuild)'=='true' " />
         <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
+        <ProjectReference Include="..\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Paket.references" />
