@@ -5,7 +5,7 @@
     <RootNamespace>CapeMay.Consumer.Server</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Paket.references" />
+    <Content Include="paket.references" />
     <Compile Include="Config.fs" />
     <Compile Include="CompositionRoot.fs" />
     <Compile Include="Host.fs" />

@@ -8,7 +8,7 @@
         <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include="Paket.references" />
+        <Content Include="paket.references" />
         <Compile Include="Models.fs" />
         <Compile Include="Parsing.fs" />
         <Compile Include="DataStore.fs" />

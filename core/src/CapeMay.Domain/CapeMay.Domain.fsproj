@@ -5,7 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Paket.references" />
+    <Content Include="paket.references" />
     <Compile Include="Models.fs" />
     <Compile Include="Errors.fs" />
     <Compile Include="Parsing.fs" />

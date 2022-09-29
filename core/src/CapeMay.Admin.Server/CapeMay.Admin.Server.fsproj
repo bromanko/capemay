@@ -5,7 +5,7 @@
         <RootNamespace>CapeMay.Admin.Server</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="Paket.references" />
+        <Content Include="paket.references" />
         <Compile Include="Config.fs" />
         <Compile Include="Errors.fs" />
         <Compile Include="Exec.fs" />
