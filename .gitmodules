@@ -1,3 +1,0 @@
-[submodule "core/src/Vp.FSharp.Sql.Sqlite"]
-	path = core/src/Vp.FSharp.Sql.Sqlite
-	url = https://github.com/bromanko/Vp.FSharp.Sql.Sqlite.git

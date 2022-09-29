@@ -13,10 +13,7 @@
     <Compile Include="String.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vp.FSharp.Sql" Version="*" Condition=" '$(ContinuousIntegrationBuild)'=='true' " />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
+    <ProjectReference Include="..\..\paket-files\bromanko\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
