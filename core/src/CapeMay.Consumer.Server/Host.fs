@@ -7,15 +7,13 @@ open Giraffe
 open Microsoft.AspNetCore.Builder
 
 module Host =
-    let private webApp compRoot = choose []
+    let private webApp _ = choose []
 
     let private configureApp
         (compRoot: CompositionRoot.T)
         (app: IApplicationBuilder)
         =
-        app
-            // .UseGiraffeErrorHandler(Errors.errorHandler)
-            .UseGiraffe(webApp compRoot)
+        app.UseGiraffe (webApp compRoot)
 
     let private configureServices
         (_: CompositionRoot.T)
