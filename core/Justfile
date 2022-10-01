@@ -51,3 +51,17 @@ db-delete TARGET:
 
 # Reset a db
 @db-reset TARGET: (db-delete TARGET) (db-create TARGET) (db-deploy TARGET)
+
+# Create a database migration
+@db-migration-create TARGET +ARGS:
+  {{sqitch}} add {{ARGS}} {{TARGET}}
+
+# Generate nix.deps file for a nix package
+generate-nix-deps NIX_PACKAGE:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  set -x
+
+  script=$(mktemp -u)
+  nix build .\#{{NIX_PACKAGE}}.passthru.fetch-deps --out-link $script
+  . $script
