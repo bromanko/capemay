@@ -14,6 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\paket-files\bromanko\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
+    <PackageReference Include="Vp.FSharp.Sql.Sqlite" Condition=" '$(ContinuousIntegrationBuild)'=='true' "/>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
