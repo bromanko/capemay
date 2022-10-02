@@ -5,7 +5,10 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
+        <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj"/>
+        <PackageReference Include="CapeMay.Domain" Condition=" '$(ContinuousIntegrationBuild)'=='true' "/>
+        <ProjectReference Include="..\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj"/>
+        <PackageReference Include="Vp.FSharp.Sql.Sqlite" Condition=" '$(ContinuousIntegrationBuild)'=='true' "/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="paket.references" />
