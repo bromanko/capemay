@@ -16,7 +16,7 @@
           overlays = [ (import ../nix/overlays/sqitch.nix) ];
         });
 
-      buildCMDotnetModule = (attrs:
+      buildDotnetModule = (attrs:
         let
           projectFile = attrs.projectFile or ("src/" + attrs.pname + "/"
             + attrs.pname + ".fsproj");
@@ -26,19 +26,21 @@
           src = ./.;
           projectFile = projectFile;
           nugetDeps = ./nix + "/${attrs.pname}" + ".deps.nix";
-          dotnet-sdk = attrs.pkgs.dotnetCorePackages.sdk_6_0;
         });
+
+      buildPaketDotnetModule =
+        (attrs: (buildDotnetModule attrs) // { passthru.fetch-deps = "test"; });
     in {
       packages = forAllSystems (system:
         let pkgs = nixpkgsFor.${system};
         in {
-          Vp.FSharp.Sql.Sqlite = buildCMDotnetModule {
+          Vp.FSharp.Sql.Sqlite = buildDotnetModule {
             inherit pkgs;
             pname = "Vp.FSharp.Sql.Sqlite";
             projectFile =
               "src/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite.fsproj";
           };
-          CapeMay.Domain = buildCMDotnetModule {
+          CapeMay.Domain = buildPaketDotnetModule {
             inherit pkgs;
             pname = "CapeMay.Domain";
             version = "0.0.1";
