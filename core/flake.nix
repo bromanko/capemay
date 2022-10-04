@@ -27,10 +27,8 @@
             projectFile =
               "src/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite.fsproj";
           };
-          CapeMay.Domain = pkgs.buildPaketDotnetModule {
-            name = "CapeMay.Domain";
-            version = "0.0.1";
-          };
+          CapeMay.Domain =
+            pkgs.buildPaketDotnetModule { name = "CapeMay.Domain"; };
         });
 
       devShells = forAllSystems (system:
