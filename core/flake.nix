@@ -13,36 +13,22 @@
       nixpkgsFor = forAllSystems (system:
         import nixpkgs {
           inherit system;
-          overlays = [ (import ../nix/overlays/sqitch.nix) ];
+          overlays = [
+            (import ../nix/overlays/sqitch.nix)
+            (import ../nix/overlays/buildPaketDotnetModule.nix)
+          ];
         });
-
-      buildDotnetModule = (attrs:
-        let
-          projectFile = attrs.projectFile or ("src/" + attrs.pname + "/"
-            + attrs.pname + ".fsproj");
-        in attrs.pkgs.buildDotnetModule {
-          pname = attrs.pname;
-          version = attrs.version or "0.0.1";
-          src = ./.;
-          projectFile = projectFile;
-          nugetDeps = ./nix + "/${attrs.pname}" + ".deps.nix";
-        });
-
-      buildPaketDotnetModule =
-        (attrs: (buildDotnetModule attrs) // { passthru.fetch-deps = "test"; });
     in {
       packages = forAllSystems (system:
         let pkgs = nixpkgsFor.${system};
         in {
-          Vp.FSharp.Sql.Sqlite = buildDotnetModule {
-            inherit pkgs;
-            pname = "Vp.FSharp.Sql.Sqlite";
+          Vp.FSharp.Sql.Sqlite = pkgs.buildCmDotnetModule {
+            name = "Vp.FSharp.Sql.Sqlite";
             projectFile =
               "src/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite.fsproj";
           };
-          CapeMay.Domain = buildPaketDotnetModule {
-            inherit pkgs;
-            pname = "CapeMay.Domain";
+          CapeMay.Domain = pkgs.buildPaketDotnetModule {
+            name = "CapeMay.Domain";
             version = "0.0.1";
           };
         });
