@@ -15,20 +15,27 @@
           inherit system;
           overlays = [
             (import ../nix/overlays/sqitch.nix)
-            (import ../nix/overlays/buildPaketDotnetModule.nix)
+            (import ../nix/overlays/dotnet.nix)
           ];
         });
     in {
       packages = forAllSystems (system:
         let pkgs = nixpkgsFor.${system};
         in {
-          Vp.FSharp.Sql.Sqlite = pkgs.buildCmDotnetModule {
+          Vp.FSharp.Sql.Sqlite = pkgs.buildCmDotnetModule rec {
             name = "Vp.FSharp.Sql.Sqlite";
+            src = ./.;
+            nugetDeps = ./nix + "/${name}" + ".deps.nix";
             projectFile =
               "src/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite/Vp.FSharp.Sql.Sqlite.fsproj";
+            packNupkg = true;
           };
-          CapeMay.Domain =
-            pkgs.buildPaketDotnetModule { name = "CapeMay.Domain"; };
+          CapeMay.Domain = pkgs.buildPaketDotnetModule rec {
+            name = "CapeMay.Domain";
+            src = ./.;
+            nugetDeps = ./nix + "/${name}" + ".deps.nix";
+            packNupkg = true;
+          };
         });
 
       devShells = forAllSystems (system:

@@ -428,3 +428,5 @@ FodyWeavers.xsd
 
 # Storage of database files
 db/.run
+
+result
