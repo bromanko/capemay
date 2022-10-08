@@ -5,7 +5,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{E16749DB-68CA-4C00-B4B4-A1904F3AA3AD}"
 	ProjectSection(SolutionItems) = preProject
 		flake.nix = flake.nix
-		paket.dependencies = paket.dependencies
 		.envrc = .envrc
 	EndProjectSection
 EndProject
