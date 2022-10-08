@@ -1,11 +1,3 @@
-# {
-# config,
-# lib,
-# pkgs,
-# shortenPerlShebang,
-# ...
-# }:
-
 self: super:
 
 let
