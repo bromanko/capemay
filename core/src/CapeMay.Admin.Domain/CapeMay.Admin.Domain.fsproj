@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj"/>
-        <PackageReference Include="CapeMay.Domain" Condition=" '$(ContinuousIntegrationBuild)'=='true' "/>
-        <ProjectReference Include="..\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj"/>
-        <PackageReference Include="Vp.FSharp.Sql.Sqlite" Condition=" '$(ContinuousIntegrationBuild)'=='true' "/>
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="paket.references" />
-        <Compile Include="Models.fs" />
-        <Compile Include="Parsing.fs" />
-        <Compile Include="DataStore.fs" />
-        <Compile Include="Commands.fs" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
+    <PackageReference Include="CapeMay.Domain" Condition=" '$(ContinuousIntegrationBuild)'=='true' " />
+    <ProjectReference Include="..\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
+    <PackageReference Include="Vp.FSharp.Sql.Sqlite" Condition=" '$(ContinuousIntegrationBuild)'=='true' " />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="paket.references" />
+    <Compile Include="Models.fs" />
+    <Compile Include="Parsing.fs" />
+    <Compile Include="DataStore.fs" />
+    <Compile Include="Commands.fs" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

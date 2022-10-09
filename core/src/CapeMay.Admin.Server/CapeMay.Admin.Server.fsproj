@@ -1,23 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>CapeMay.Admin.Server</RootNamespace>
-    </PropertyGroup>
-    <ItemGroup>
-        <Content Include="paket.references" />
-        <Compile Include="Config.fs" />
-        <Compile Include="Errors.fs" />
-        <Compile Include="Exec.fs" />
-        <Compile Include="Parsing.fs" />
-        <Compile Include="CompositionRoot.fs" />
-        <Compile Include="Tenants.fs" />
-        <Compile Include="JsonConverters.fs" />
-        <Compile Include="Host.fs" />
-        <Compile Include="Main.fs" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\CapeMay.Admin.Domain\CapeMay.Admin.Domain.fsproj" />
-      <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>CapeMay.Admin.Server</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="paket.references" />
+    <Compile Include="Config.fs" />
+    <Compile Include="Errors.fs" />
+    <Compile Include="Exec.fs" />
+    <Compile Include="Parsing.fs" />
+    <Compile Include="CompositionRoot.fs" />
+    <Compile Include="Tenants.fs" />
+    <Compile Include="JsonConverters.fs" />
+    <Compile Include="Host.fs" />
+    <Compile Include="Main.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CapeMay.Admin.Domain\CapeMay.Admin.Domain.fsproj" />
+    <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

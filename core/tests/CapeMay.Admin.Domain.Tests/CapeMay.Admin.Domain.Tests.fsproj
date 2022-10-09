@@ -14,4 +14,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CapeMay.Admin.Domain\CapeMay.Admin.Domain.fsproj" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

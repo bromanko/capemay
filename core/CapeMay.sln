@@ -6,6 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{E16749DB-6
 	ProjectSection(SolutionItems) = preProject
 		flake.nix = flake.nix
 		.envrc = .envrc
+		paket.dependencies = paket.dependencies
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E255F0CB-3840-4FA8-8758-0E90AAD27D2C}"
@@ -22,10 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{AEEC7563-79E2-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "admin", "admin", "{DC1C5BCE-9019-4F75-B611-384999A9BB5A}"
 	ProjectSection(SolutionItems) = preProject
-		db\admin\admin.sqlite = db\admin\admin.sqlite
-		db\admin\sqitch.conf = db\admin\sqitch.conf
 		db\admin\sqitch.plan = db\admin\sqitch.plan
-		db\admin\sqitch.sqlite = db\admin\sqitch.sqlite
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{670213B4-9B0E-491F-B6C9-70D93223EA9A}"
