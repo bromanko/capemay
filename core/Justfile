@@ -56,12 +56,6 @@ db-delete TARGET:
 @db-migration-create TARGET +ARGS:
   {{sqitch}} add {{ARGS}} {{TARGET}}
 
-# Generate nix.deps file for a nix package
-generate-nix-deps NIX_PACKAGE:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  set -x
-
-  script=$(mktemp -u)
-  nix build .\#{{NIX_PACKAGE}}.passthru.fetch-deps --out-link $script
-  . $script
+# Build docker image for an application
+build-image TARGET:
+  docker build -f src/{{TARGET}}/Dockerfile -t {{lowercase(TARGET)}} .

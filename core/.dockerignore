@@ -1,0 +1,41 @@
+### fsharp ###
+lib/debug
+lib/release
+Debug
+*.suo
+*.user
+obj
+bin
+/build/
+
+# Visual Studio 2015/2017 cache/options directory
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Paket dependency manager
+.paket/paket.exe
+paket-files/
+
+# JetBrains Rider
+*.sln.iml
+.idea
+
+# CapeMay
+db/.run
+Justfile
+.git
+.direnv
+result

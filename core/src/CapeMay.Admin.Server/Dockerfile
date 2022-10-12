@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS packages
+WORKDIR /app
+
+COPY .config ./
+RUN dotnet tool restore
+
+COPY paket.dependencies paket.lock CapeMay.sln ./
+# COPY src/**/*.fsproj src/**/*.paket.references ./
+RUN dotnet paket restore
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+WORKDIR /app
+COPY --from=packages /root/.nuget /root/.nuget
+
+COPY . ./
+RUN dotnet tool restore
+RUN dotnet publish src/CapeMay.Admin.Server/CapeMay.Admin.Server.fsproj -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=build-env /app/out ./
+ENTRYPOINT ["./CapeMay.Admin.Server"]
