@@ -25,8 +25,15 @@
         in {
           default = with pkgs;
             mkShell {
-              packages =
-                [ dotnetCorePackages.sdk_6_0 mono sqlite sqitch just flyctl ];
+              packages = [
+                dotnetCorePackages.sdk_6_0
+                mono
+                sqlite
+                sqitch
+                just
+                flyctl
+                jq
+              ];
             };
         });
     };
