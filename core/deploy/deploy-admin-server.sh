@@ -84,6 +84,9 @@ machineConfig() {
   "config": {
       "image": "registry.fly.io/${app}:${label}",
       "env": {
+        "ADMIN_DB_CONNECTION_STRING": "Data Source=/db/admin.sqlite;Mode=ReadWrite;Cache=Shared;Foreign Keys=True;",
+        "ADMIN_SERVER_HTTP_PORT": "5000",
+        "ADMIN_SERVER_BASE": "0.0.0.0"
       },
       "services": [{
         "ports": [
