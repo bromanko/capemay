@@ -28,6 +28,19 @@ app=$2
 
 set -u
 
+proxy_pid=""
+startProxy() {
+    echo "Starting proxy..."
+    fly machines api-proxy &
+    proxy_pid=$!
+}
+
+stopProxy() {
+    if [ -n "$proxy_pid" ]; then
+        kill "$proxy_pid"
+    fi
+}
+
 appExists() {
     local org="$1"
     local app="$2"
@@ -113,11 +126,10 @@ EOF
 }
 
 createMachine() {
-    local org="$1"
-    local app="$2"
-    local label="$3"
-    local machine_name="$4"
-    local volume_name="$5"
+    local app="$1"
+    local label="$2"
+    local machine_name="$3"
+    local volume_name="$4"
 
     local volume_id
     volume_id=$(fly volume list -a "${app}" -j | jq -r "select(.[].Name == \"${volume_name}\")[0].id")
@@ -134,17 +146,26 @@ updateMachine() {
     local app="$1"
     local label="$2"
     local machine_name="$3"
+    local volume_name="$4"
+
+    local volume_id
+    volume_id=$(fly volume list -a "${app}" -j | jq -r "select(.[].Name == \"${volume_name}\")[0].id")
 
     local machine_id
     machine_id=$(fly machines list -a "${app}" -j | jq -r "select(.[].name == \"${machine_name}\")[0].id")
 
-    fly machines update "${machine_id}" \
-        -a "${app}" \
-        -c src/CapeMay.Admin.Server/fly.toml \
-        --image "registry.fly.io/${app}:${label}"
+    local body
+    body=$(machineConfig "$app" "$label" "$machine_name" "$volume_id")
+    curl -i -X POST \
+        -H "Authorization: Bearer ${FLY_API_TOKEN}" -H "Content-Type: application/json" \
+        "http://${FLY_API_HOSTNAME}/v1/apps/${app}/machines/${machine_id}" \
+        -d "${body}"
 }
 
 set -x
+
+startProxy
+trap stopProxy EXIT
 
 if appExists "${org}" "$app"; then
     echo "App \"${app}\" exists. Skipping creation."
@@ -169,9 +190,8 @@ pushImage "${app}" "${label}"
 
 if machineExists "$app"; then
     echo "Machine exists. Updating..."
-    exit 1
-    updateMachine "${app}" "${label}" "${machine_name}"
+    updateMachine "${app}" "${label}" "${machine_name}" "${volume_name}"
 else
     echo "Creating machine..."
-    createMachine "${org}" "${app}" "${label}" "${machine_name}" "${volume_name}"
+    createMachine "${app}" "${label}" "${machine_name}" "${volume_name}"
 fi
