@@ -17,6 +17,10 @@ RUN dotnet tool restore
 RUN dotnet publish src/CapeMay.Admin.Server/CapeMay.Admin.Server.fsproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
+
+RUN apt-get -qq update \
+    && apt-get -qq --no-install-recommends install sqitch
+
 WORKDIR /app
 COPY --from=build-env /app/out ./
 ENTRYPOINT ["./CapeMay.Admin.Server"]
