@@ -57,5 +57,5 @@ db-delete TARGET:
   {{sqitch}} add {{ARGS}} {{TARGET}}
 
 # Build docker image for an application
-build-image TARGET:
+@build-image TARGET:
   docker build -f src/{{TARGET}}/Dockerfile -t {{lowercase(TARGET)}} .
