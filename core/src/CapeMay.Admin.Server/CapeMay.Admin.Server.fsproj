@@ -12,6 +12,7 @@
     <Compile Include="Parsing.fs" />
     <Compile Include="CompositionRoot.fs" />
     <Compile Include="Tenants.fs" />
+    <Compile Include="Db.fs" />
     <Compile Include="JsonConverters.fs" />
     <Compile Include="Host.fs" />
     <Compile Include="Main.fs" />

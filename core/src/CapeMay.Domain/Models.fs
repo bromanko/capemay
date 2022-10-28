@@ -11,6 +11,7 @@ module TryParse =
 
     let parseGuid = tryParseWith Guid.TryParse
 
+    let inline parseDateTimeOffset s = tryParseWith DateTimeOffset.TryParse s
 module NonEmptyString =
     type T =
         private
@@ -70,8 +71,7 @@ module Id =
     let parse prefix id =
         splitId id
         >>= fun (p, u) ->
-                mkId'
-                <!> parsePrefix prefix p
+                mkId' <!> parsePrefix prefix p
                 <*> NonEmptyString.parse u
 
     let toString id = id.ToString()

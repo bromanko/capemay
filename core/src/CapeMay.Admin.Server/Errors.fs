@@ -60,6 +60,10 @@ module Errors =
             mkErrorDto (InputValidationError [ e ])
             |> json
             |> RequestErrors.badRequest
+        | DomainError.UnhandledError e ->
+            mkErrorDto (UnhandledError e)
+            |> json
+            |> ServerErrors.internalError
         | UnhandledException e -> raise e
 
     let notFoundHandler: HttpHandler =

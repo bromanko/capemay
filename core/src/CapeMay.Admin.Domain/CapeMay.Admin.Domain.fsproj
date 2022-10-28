@@ -15,7 +15,9 @@
     <Compile Include="Models.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="DataStore.fs" />
-    <Compile Include="Commands.fs" />
+    <Compile Include="Sqitch.fs" />
+    <Compile Include="Commands\Tenants.fs" />
+    <Compile Include="Commands\Db.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

@@ -2,7 +2,6 @@ namespace CapeMay.Admin.Domain
 
 
 open CapeMay.Domain
-open System
 
 module TenantId =
     type T = Id.T

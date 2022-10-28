@@ -14,6 +14,7 @@ open Newtonsoft.Json.Serialization
 module Host =
     let private webApp compRoot =
         choose [ Tenants.routes compRoot
+                 Db.routes compRoot
                  Errors.notFoundHandler ]
 
     let private configureApp

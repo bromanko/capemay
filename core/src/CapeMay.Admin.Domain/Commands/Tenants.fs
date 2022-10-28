@@ -1,9 +1,12 @@
-namespace CapeMay.Admin.Domain
+namespace CapeMay.Admin.Domain.Commands
 
+open CapeMay.Admin.Domain
 open CapeMay.Domain.DataStore
 open CapeMay.Domain
+open FSharpx
+open FsToolkit.ErrorHandling
 
-module Commands =
+module Tenants =
     let createTenant connStr t =
         use conn = mkConn connStr
         conn.Open()
