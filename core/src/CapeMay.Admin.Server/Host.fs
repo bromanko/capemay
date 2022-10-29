@@ -8,20 +8,31 @@ open Microsoft.Extensions.Hosting
 open Microsoft.AspNetCore.Hosting
 open Giraffe
 open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Diagnostics.HealthChecks
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 
 module Host =
     let private webApp compRoot =
-        choose [ Tenants.routes compRoot
-                 Db.routes compRoot
-                 Errors.notFoundHandler ]
+        choose
+            [ Tenants.routes compRoot
+              Db.routes compRoot
+              Errors.notFoundHandler ]
+
+    let private addHealthChecks (cfg) (services: IServiceCollection) =
+        let health = services.AddHealthChecks()
+        services
+
 
     let private configureApp
         (compRoot: CompositionRoot.T)
         (app: IApplicationBuilder)
         =
         app
+            .UseHealthChecks(
+                "/_/health",
+                HealthCheckOptions(ResponseWriter = Health.responseWriter)
+            )
             .UseGiraffeErrorHandler(Errors.errorHandler)
             .UseGiraffe(webApp compRoot)
 
@@ -34,15 +45,17 @@ module Host =
         s.Converters.Add(ParsableConverter(Fqdn.parse))
         s.Converters.Add(ParsableConverter(TenantId.parse))
         s.Converters.Add(ParsableConverter(NonEmptyString.parse))
+        s.Converters.Add(Newtonsoft.Json.Converters.StringEnumConverter())
 
         services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(s))
 
     let private configureServices
-        (_: CompositionRoot.T)
+        (compRoot: CompositionRoot.T)
         (services: IServiceCollection)
         =
         services.AddGiraffe()
         |> configureJsonSerialization
+        |> addHealthChecks compRoot.Config
         |> ignore
 
     let private mkServerUrls (cfg: ServerConfig) = [| cfg.HttpUri.ToString() |]
