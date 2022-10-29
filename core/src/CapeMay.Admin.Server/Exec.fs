@@ -13,3 +13,6 @@ module Exec =
     let create cmd = respond Successful.created cmd
 
     let read cmd = respond Successful.ok cmd
+
+    let run cmd = respond Successful.ok cmd
+
