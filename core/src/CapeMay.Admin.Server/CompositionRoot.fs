@@ -10,19 +10,20 @@ module CompositionRoot =
           GetAll: unit -> Result<TenantList, DomainError> }
 
     type Db =
-        { Status : unit -> Result<Sqitch.SqitchStatus, DomainError> }
+        { Status: unit -> Result<Commands.Db.DbStatus, DomainError> }
 
-    type Commands = { Tenants: Tenants
-                      Db: Db }
+    type Commands = { Tenants: Tenants; Db: Db }
 
     type T =
-        { Config: Config.T
-          Commands: Commands }
+        { Config: Config.T; Commands: Commands }
 
     let defaultRoot cfg =
         { Config = cfg
           Commands =
             { Tenants =
                 { Create = Commands.Tenants.createTenant cfg.Db.ConnectionString
-                  GetAll = fun () -> Commands.Tenants.getAllTenants cfg.Db.ConnectionString }
-              Db = { Status = fun() -> Commands.Db.status cfg.Db.ConnectionString } } }
+                  GetAll =
+                    fun () ->
+                        Commands.Tenants.getAllTenants cfg.Db.ConnectionString }
+              Db =
+                { Status = fun () -> Commands.Db.status cfg.Db.ConnectionString } } }

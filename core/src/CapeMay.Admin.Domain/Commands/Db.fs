@@ -6,13 +6,14 @@ open CapeMay.Domain
 open FSharpx
 open FsToolkit.ErrorHandling
 open Microsoft.Data.Sqlite
+open FsToolkit.ErrorHandling.Operator.Result
 
 module Db =
-    open FsToolkit.ErrorHandling.Operator.Result
-
     [<Literal>]
     let target = "admin"
 
+    type DbStatus =
+    { LastDeploy: Sqitch.SqitchStatus option }
     let private parseDbPath connStr =
         let builder =
             SqliteConnectionStringBuilder connStr
@@ -37,3 +38,4 @@ module Db =
         parseDbPath connStr
         >>= (fun dbPath ->
             Sqitch.status dbPath (NonEmptyString.parse target).Value)
+        >>= (fun ss -> Ok { LastDeploy = ss })

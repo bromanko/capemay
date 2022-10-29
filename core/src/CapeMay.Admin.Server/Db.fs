@@ -8,7 +8,7 @@ module Db =
         Exec.run compRoot.Commands.Db.Status
 
     [<Literal>]
-    let DbPath = "/db"
+    let DbPath = "/_/db"
 
     let routes compRoot =
         choose

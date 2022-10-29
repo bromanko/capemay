@@ -95,6 +95,13 @@ module Sqitch =
          |> parseStatusLines) (Map<string, string> [])
         |> mkStatus
 
-    let status wkDir target : Result<SqitchStatus, DomainError> =
+    let status wkDir target : Result<SqitchStatus option, DomainError> =
         execSqitch wkDir target (NonEmptyString.parse "status").Value
         |> Result.map (fun pr -> parseStatus pr.StdOut)
+        |> Result.map (function
+            | { Project = None
+                Change = None
+                Name = None
+                Deployed = None
+                By = None } -> None
+            | ss -> Some ss)
