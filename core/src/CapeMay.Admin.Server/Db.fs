@@ -7,6 +7,9 @@ module Db =
     let status (compRoot: CompositionRoot.T) =
         Exec.run compRoot.Commands.Db.Status
 
+    let deploy (compRoot: CompositionRoot.T) =
+        Exec.run compRoot.Commands.Db.Deploy
+
     [<Literal>]
     let DbPath = "/_/db"
 
@@ -14,4 +17,5 @@ module Db =
         choose
             [ route DbPath
               >=> GET
-              >=> warbler (fun _ -> status compRoot) ]
+              >=> warbler (fun _ -> status compRoot)
+              route $"{DbPath}/deploy" >=> POST >=> deploy compRoot ]

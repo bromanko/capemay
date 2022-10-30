@@ -39,3 +39,8 @@ module Db =
         >>= (fun dbPath ->
             Sqitch.status dbPath (NonEmptyString.parse target).Value)
         >>= (fun ss -> Ok { LastDeploy = ss })
+
+    let deploy connStr =
+        parseDbPath connStr
+        >>= (fun dbPath ->
+            Sqitch.deploy dbPath (NonEmptyString.parse target).Value)

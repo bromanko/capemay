@@ -10,7 +10,8 @@ module CompositionRoot =
           GetAll: unit -> Result<TenantList, DomainError> }
 
     type Db =
-        { Status: unit -> Result<Commands.Db.DbStatus, DomainError> }
+        { Status: unit -> Result<Commands.Db.DbStatus, DomainError>
+          Deploy: unit -> Result<Sqitch.DeployResult, DomainError> }
 
     type Commands = { Tenants: Tenants; Db: Db }
 
@@ -26,4 +27,5 @@ module CompositionRoot =
                     fun () ->
                         Commands.Tenants.getAllTenants cfg.Db.ConnectionString }
               Db =
-                { Status = fun () -> Commands.Db.status cfg.Db.ConnectionString } } }
+                { Status = fun () -> Commands.Db.status cfg.Db.ConnectionString
+                  Deploy = fun () -> Commands.Db.deploy cfg.Db.ConnectionString } } }

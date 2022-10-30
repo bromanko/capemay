@@ -6,7 +6,9 @@ open System.Text
 open System.Text.RegularExpressions
 open CapeMay.Domain
 open TryParse
+open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator.Result
+open FSharpx
 
 [<RequireQualifiedAccess>]
 module Sqitch =
@@ -105,3 +107,9 @@ module Sqitch =
                 Deployed = None
                 By = None } -> None
             | ss -> Some ss)
+
+    type DeployResult = { Message: string }
+
+    let deploy wkDir target : Result<DeployResult, DomainError> =
+        execSqitch wkDir target (NonEmptyString.parse "deploy").Value
+        |> Result.map (fun pr -> { Message = String.trim pr.StdOut })
