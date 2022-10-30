@@ -12,8 +12,8 @@ module Db =
     [<Literal>]
     let target = "admin"
 
-    type DbStatus =
-    { LastDeploy: Sqitch.SqitchStatus option }
+    type DbStatus = { LastDeploy: Sqitch.SqitchStatus option }
+
     let private parseDbPath connStr =
         let builder =
             SqliteConnectionStringBuilder connStr

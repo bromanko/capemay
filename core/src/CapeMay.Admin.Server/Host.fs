@@ -45,6 +45,7 @@ module Host =
         s.Converters.Add(ParsableConverter(Fqdn.parse))
         s.Converters.Add(ParsableConverter(TenantId.parse))
         s.Converters.Add(ParsableConverter(NonEmptyString.parse))
+        s.Converters.Add(OptionConverter())
         s.Converters.Add(Newtonsoft.Json.Converters.StringEnumConverter())
 
         services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(s))

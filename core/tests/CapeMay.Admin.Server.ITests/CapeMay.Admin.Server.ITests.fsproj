@@ -14,7 +14,8 @@
     <Compile Include="Assertions.fs" />
     <Compile Include="Tenants\CreateTenantTests.fs" />
     <Compile Include="Tenants\GetTenantsTests.fs" />
-    <Compile Include="Operational\HealthTests.fs"/>
+    <Compile Include="Operational\HealthTests.fs" />
+    <Compile Include="Operational\DbTests.fs" />
     <Compile Include="ErrorTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>

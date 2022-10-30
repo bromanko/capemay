@@ -37,8 +37,8 @@ module Sqitch =
             let p = Process.Start psi
             let output = StringBuilder()
             let error = StringBuilder()
-            p.OutputDataReceived.Add(fun a -> output.Append a.Data |> ignore)
-            p.ErrorDataReceived.Add(fun a -> error.Append a.Data |> ignore)
+            p.OutputDataReceived.Add(fun a -> output.AppendLine a.Data |> ignore)
+            p.ErrorDataReceived.Add(fun a -> error.AppendLine a.Data |> ignore)
             p.BeginOutputReadLine()
             p.BeginErrorReadLine()
             p.WaitForExit()
