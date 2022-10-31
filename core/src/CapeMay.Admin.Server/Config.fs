@@ -1,14 +1,10 @@
 namespace CapeMay.Admin.Server
 
-open System
 open FsConfig
 
 type ServerConfig =
-    { [<DefaultValue("localhost")>]
-      Base: string
-      HttpPort: int }
-    member this.HttpUri =
-        Uri $"http://%s{this.Base}:%i{this.HttpPort}"
+    { [<DefaultValue("http://*:8080")>]
+      Url: string }
 
 type DbConfig =
     { ConnectionString: string }

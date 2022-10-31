@@ -59,7 +59,7 @@ module Host =
         |> addHealthChecks compRoot.Config
         |> ignore
 
-    let private mkServerUrls (cfg: ServerConfig) = [| cfg.HttpUri.ToString() |]
+    let private mkServerUrls (cfg: ServerConfig) = [| cfg.Url |]
 
     let mkHostBuilder (compRoot: CompositionRoot.T) argv =
         Host
