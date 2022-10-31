@@ -29,16 +29,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{670213B4-9B0E-491F-B6C9-70D93223EA9A}"
 	ProjectSection(SolutionItems) = preProject
 		db\admin\deploy\tenants.sql = db\admin\deploy\tenants.sql
+		db\admin\deploy\tasks.sql = db\admin\deploy\tasks.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "verify", "verify", "{E7B3A479-984D-48B5-9BAF-F63496DFE992}"
 	ProjectSection(SolutionItems) = preProject
 		db\admin\verify\tenants.sql = db\admin\verify\tenants.sql
+		db\admin\verify\tasks.sql = db\admin\verify\tasks.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "revert", "revert", "{BC3F90FB-D21D-4D06-A481-8B6F65DF6056}"
 	ProjectSection(SolutionItems) = preProject
 		db\admin\revert\tenants.sql = db\admin\revert\tenants.sql
+		db\admin\revert\tasks.sql = db\admin\revert\tasks.sql
 	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Admin.Domain.Tests", "tests\CapeMay.Admin.Domain.Tests\CapeMay.Admin.Domain.Tests.fsproj", "{8AD9DC2B-1BED-4C1B-BE38-C743B5B36ABD}"
