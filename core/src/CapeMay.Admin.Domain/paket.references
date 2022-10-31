@@ -2,3 +2,4 @@ FsToolkit.ErrorHandling
 FsToolkit.ErrorHandling.TaskResult
 FSharpx.Extras
 Microsoft.Data.Sqlite
+FSharp.Data.GraphQL.Client
