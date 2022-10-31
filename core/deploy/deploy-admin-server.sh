@@ -98,8 +98,7 @@ machineConfig() {
       "image": "registry.fly.io/${app}:${label}",
       "env": {
         "ADMIN_DB_CONNECTION_STRING": "Data Source=/db/admin.sqlite;Mode=ReadWrite;Cache=Shared;Foreign Keys=True;",
-        "ADMIN_SERVER_HTTP_PORT": "5000",
-        "ADMIN_SERVER_BASE": "0.0.0.0"
+        "ADMIN_SERVER_URL": "http://*:8080"
       },
       "services": [{
         "ports": [
@@ -114,7 +113,7 @@ machineConfig() {
           }
         ],
         "protocol": "tcp",
-        "internal_port": 5000
+        "internal_port": 8080
       }],
       "mounts": [{
         "volume": "${volume_id}",
@@ -161,8 +160,6 @@ updateMachine() {
         "http://${FLY_API_HOSTNAME}/v1/apps/${app}/machines/${machine_id}" \
         -d "${body}"
 }
-
-set -x
 
 startProxy
 trap stopProxy EXIT
