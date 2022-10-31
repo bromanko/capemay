@@ -53,8 +53,8 @@ db-delete TARGET:
 @db-reset TARGET: (db-delete TARGET) (db-create TARGET) (db-deploy TARGET)
 
 # Create a database migration
-@db-migration-create TARGET +ARGS:
-  {{sqitch}} add {{ARGS}} {{TARGET}}
+@db-migration-create TARGET NAME MESSAGE:
+  {{sqitch}} add --change-name {{NAME}} --note '{{MESSAGE}}' {{TARGET}}
 
 # Build docker image for an application
 @build-image TARGET:
