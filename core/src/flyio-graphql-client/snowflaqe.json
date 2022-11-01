@@ -1,0 +1,9 @@
+{
+    "schema": "src/flyio-graphql-client/fly_schema.json",
+    "queries": "queries",
+    "project": "FlyIo",
+    "output": "src/FlyIo",
+    "target": "fsharp",
+    "asyncReturnType": "task",
+    "serializer": "newtonsoft"
+}
