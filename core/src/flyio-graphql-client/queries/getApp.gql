@@ -1,0 +1,13 @@
+query($appName: String!) {
+  app(name: $appName) {
+    appUrl,
+    createdAt,
+    deployed,
+    hostname,
+    id,
+    name,
+    organization { id, name }
+    regions { name, code  },
+    status
+  }
+}

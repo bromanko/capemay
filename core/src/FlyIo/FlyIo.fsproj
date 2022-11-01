@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="FlyIo.StringEnum.fs" />
+    <Compile Include="FlyIo.Types.fs" />
+    <Compile Include="FlyIo.GetApp.fs" />
+    <Compile Include="FlyIo.GraphqlClient.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.2" />
+    <PackageReference Include="Fable.Remoting.Json" Version="2.18.0" />
+    <PackageReference Include="Ply" Version="0.3.1" />
+  </ItemGroup>
+</Project>
