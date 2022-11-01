@@ -15,10 +15,6 @@
     <Compile Include="Models.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="DataStore.fs" />
-    <Compile Include="FlyClient.fs" />
-    <EmbeddedResource Include="fly_schema.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <Compile Include="Sqitch.fs" />
     <Compile Include="Commands\Tenants.fs" />
     <Compile Include="Commands\Db.fs" />
