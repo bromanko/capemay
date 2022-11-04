@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CapeMay.Domain\CapeMay.Domain.fsproj" />
     <PackageReference Include="CapeMay.Domain" Condition=" '$(ContinuousIntegrationBuild)'=='true' " />
+    <ProjectReference Include="..\FlyIo\FlyIo.fsproj" />
     <ProjectReference Include="..\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite\Vp.FSharp.Sql.Sqlite.fsproj" />
     <PackageReference Include="Vp.FSharp.Sql.Sqlite" Condition=" '$(ContinuousIntegrationBuild)'=='true' " />
   </ItemGroup>
@@ -16,6 +17,8 @@
     <Compile Include="Parsing.fs" />
     <Compile Include="DataStore.fs" />
     <Compile Include="Sqitch.fs" />
+    <Compile Include="FlyIo.fs" />
+    <Compile Include="Commands\Deployments.fs" />
     <Compile Include="Commands\Tenants.fs" />
     <Compile Include="Commands\Db.fs" />
   </ItemGroup>

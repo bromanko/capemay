@@ -2,7 +2,6 @@ namespace CapeMay.Admin.Domain.Tests
 
 open Expecto
 open CapeMay.Admin.Domain
-open CapeMay.Admin.Domain.FlyClient
 
 module FqdnTests =
     [<Tests>]
@@ -18,11 +17,4 @@ module FqdnTests =
                   "Parsing valid fqdn"
                   ([ "foo.com"; "foo.bar.com" ]
                    |> testCases "%s is not valid" (fun f ->
-                       Expect.isSome (Fqdn.parse f) "Parsing was not successful"))
-
-              ftestList "GraphQl" [ testTask "foo" {
-                  let r =
-                      mkRuntimeCxt
-                      |> appExists "foo"
-                  printfn $"{r}"
-              } ] ]
+                       Expect.isSome (Fqdn.parse f) "Parsing was not successful")) ]
