@@ -18,20 +18,19 @@ module Tenants =
               Id = TenantId.create () }
 
         let parse (req: CreateTenantDto) =
-            mkCreateTenant
-            <!> tryParseFqdn req.Fqdn "FQDN is invalid."
+            mkCreateTenant <!> tryParseFqdn req.Fqdn "FQDN is invalid."
 
-        let exec (compRoot: CompositionRoot.T) t =
-            Exec.create (fun _ -> compRoot.Commands.Tenants.Create t)
+        let exec (compRoot: CompositionRoot.T) t : HttpHandler =
+    Exec.createAsync (fun _ -> compRoot.Commands.Tenants.Create t)
 
     [<Literal>]
     let TenantPath = "/tenant"
 
     let routes compRoot =
-        choose [ route TenantPath
-                 >=> POST
-                 >=> bindAndParse Create.parse (Create.exec compRoot)
-                 route TenantPath
-                 >=> GET
-                 >=> warbler (fun _ ->
-                     Exec.read compRoot.Commands.Tenants.GetAll) ]
+        choose
+            [ route TenantPath
+              >=> POST
+              >=> bindAndParse Create.parse (Create.exec compRoot)
+              route TenantPath
+              >=> GET
+              >=> warbler (fun _ -> Exec.read compRoot.Commands.Tenants.GetAll) ]

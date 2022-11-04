@@ -5,5 +5,11 @@
     "output": "../FlyIo",
     "target": "fsharp",
     "asyncReturnType": "task",
-    "serializer": "newtonsoft"
+    "serializer": "newtonsoft",
+    "errorType": {
+        "FlyIoError": {
+            "message": "string",
+            "extensions": "dictionary<string, string>"
+        }
+    }
 }

@@ -4,10 +4,10 @@ open Giraffe
 open CapeMay.Admin.Server
 
 module Db =
-    let status (compRoot: CompositionRoot.T) =
+    let status (compRoot: CompositionRoot.T): HttpHandler =
         Exec.run compRoot.Commands.Db.Status
 
-    let deploy (compRoot: CompositionRoot.T) =
+    let deploy (compRoot: CompositionRoot.T): HttpHandler =
         Exec.run compRoot.Commands.Db.Deploy
 
     [<Literal>]

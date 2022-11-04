@@ -1380,4 +1380,6 @@ type VolumeInput =
       count: Option<int> }
 
 /// The error returned by the GraphQL backend
-type ErrorType = { message: string }
+type FlyIoError =
+    { message: string
+      extensions: System.Collections.Generic.Dictionary<string, string> }

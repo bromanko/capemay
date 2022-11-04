@@ -1,12 +1,13 @@
 namespace CapeMay.Admin.Server
 
+open System.Threading.Tasks
 open CapeMay.Admin.Domain
 open CapeMay.Domain
 
 [<RequireQualifiedAccess>]
 module CompositionRoot =
     type Tenants =
-        { Create: CreateTenant -> Result<Tenant, DomainError>
+        { Create: CreateTenant -> Task<Result<Tenant, DomainError>>
           GetAll: unit -> Result<TenantList, DomainError> }
 
     type Db =

@@ -11,7 +11,7 @@ open FSharp.Control.Tasks
 
 type GraphqlInput<'T> = { query: string; variables: Option<'T> }
 type GraphqlSuccessResponse<'T> = { data: 'T }
-type GraphqlErrorResponse = { errors: ErrorType list }
+type GraphqlErrorResponse = { errors: FlyIoError list }
 
 type FlyIoGraphqlClient private (httpClient: HttpClient, url: string) =
 

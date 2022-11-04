@@ -1,6 +1,7 @@
 namespace CapeMay.Admin.Domain
 
 open System
+open System.Collections.Generic
 open System.Net.Http
 open System.Net.Http.Headers
 open CapeMay.Domain
@@ -20,7 +21,7 @@ module FlyIo =
           Token: NonEmptyString.T
           OrgId: NonEmptyString.T }
 
-    let mkClient cfg =
+    let mkGraphqlClient cfg =
         let client = new HttpClient()
         client.BaseAddress <- cfg.BaseAddress
 
@@ -32,4 +33,12 @@ module FlyIo =
 
         FlyIoGraphqlClient client
 
+    let hasError (errs: FlyIoError list) code =
+        List.exists
+            (fun (e: FlyIoError) ->
+                e.extensions.GetValueOrDefault "code" = code)
+            errs
 
+    let mkFlyIoError msg =
+        [ { message = msg
+            extensions = Dictionary() } ]
