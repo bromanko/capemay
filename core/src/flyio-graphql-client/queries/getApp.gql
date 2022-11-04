@@ -1,13 +1,43 @@
-query($appName: String!) {
+query ($appName: String!) {
   app(name: $appName) {
-    appUrl,
-    createdAt,
-    deployed,
-    hostname,
-    id,
-    name,
-    organization { id, name }
-    regions { name, code  },
+    appUrl
+    createdAt
+    deployed
+    hostname
+    id
+    name
+    organization {
+      id
+      name
+    }
+    regions {
+      name
+      code
+    }
     status
+    machines {
+      nodes {
+        name
+        id
+        ips {
+          nodes {
+            id
+            ip
+            kind
+            family
+          }
+        }
+      }
+    }
+    volumes {
+      nodes {
+        id
+        name
+        sizeGb
+        state
+        status
+        usedBytes
+      }
+    }
   }
 }

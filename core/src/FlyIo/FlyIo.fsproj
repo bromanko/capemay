@@ -7,6 +7,9 @@
   <ItemGroup>
     <Compile Include="FlyIo.StringEnum.fs" />
     <Compile Include="FlyIo.Types.fs" />
+    <Compile Include="FlyIo.LaunchMachine.fs" />
+    <Compile Include="FlyIo.CreateVolume.fs" />
+    <Compile Include="FlyIo.CreateApp.fs" />
     <Compile Include="FlyIo.GetApp.fs" />
     <Compile Include="FlyIo.GraphqlClient.fs" />
   </ItemGroup>

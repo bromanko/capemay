@@ -15,6 +15,42 @@ type Region =
       /// The IATA airport code for this region
       code: string }
 
+/// A list of nodes.
+type MachineIP =
+    { /// ID of the object.
+      id: string
+      ip: string
+      kind: string
+      family: string }
+
+type MachineIPConnection =
+    { /// A list of nodes.
+      nodes: Option<list<Option<MachineIP>>> }
+
+/// A list of nodes.
+type Machine =
+    { name: string
+      id: string
+      ips: MachineIPConnection }
+
+type MachineConnection =
+    { /// A list of nodes.
+      nodes: Option<list<Option<Machine>>> }
+
+/// A list of nodes.
+type Volume =
+    { id: string
+      name: string
+      sizeGb: int
+      state: string
+      status: string
+      usedBytes: string }
+
+/// Volumes associated with app
+type VolumeConnection =
+    { /// A list of nodes.
+      nodes: Option<list<Option<Volume>>> }
+
 /// Find an app by name
 type App =
     { appUrl: Option<string>
@@ -30,7 +66,10 @@ type App =
       organization: Organization
       regions: list<Region>
       /// Application status
-      status: string }
+      status: string
+      machines: MachineConnection
+      /// Volumes associated with app
+      volumes: VolumeConnection }
 
 type Query =
     { /// Find an app by name

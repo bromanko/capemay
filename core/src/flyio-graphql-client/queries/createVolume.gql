@@ -1,0 +1,8 @@
+mutation ($input: CreateVolumeInput!) {
+  createVolume(input: $input) {
+    volume {
+      id
+      name
+    }
+  }
+}
