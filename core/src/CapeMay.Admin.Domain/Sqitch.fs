@@ -61,8 +61,7 @@ module Sqitch =
           By: string option }
 
     let (|FrontMatter|_|) (input: string) =
-        let m =
-            Regex.Match(input, "^# (?<key>[\w\d\s]+)\:\s+(?<val>.+)$")
+        let m = Regex.Match(input, "^# (?<key>[\w\d\s]+)\:\s+(?<val>.+)$")
 
         if m.Success then
             (m.Groups[ "key" ].Value.Trim(), m.Groups[ "val" ].Value.Trim())
@@ -92,9 +91,8 @@ module Sqitch =
           By = map.TryFind "By" }
 
     let parseStatus (stdout: string) =
-        (stdout.Split "\n"
-         |> Array.toList
-         |> parseStatusLines) (Map<string, string> [])
+        (stdout.Split "\n" |> Array.toList |> parseStatusLines)
+            (Map<string, string> [])
         |> mkStatus
 
     let status wkDir target : Result<SqitchStatus option, DomainError> =

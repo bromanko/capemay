@@ -21,7 +21,7 @@ module Tenants =
             mkCreateTenant <!> tryParseFqdn req.Fqdn "FQDN is invalid."
 
         let exec (compRoot: CompositionRoot.T) t : HttpHandler =
-    Exec.createAsync (fun _ -> compRoot.Commands.Tenants.Create t)
+            Exec.createAsync (fun _ -> compRoot.Commands.Tenants.Create t)
 
     [<Literal>]
     let TenantPath = "/tenant"

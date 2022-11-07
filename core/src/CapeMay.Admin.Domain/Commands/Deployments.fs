@@ -9,18 +9,22 @@ open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator.TaskResult
 
 module Deployments =
+    type FlyIoApp =
+        { OrgId: string
+          Name: string
+          Id: string }
+
     type FlyIoVolume = { Name: string; Id: string }
 
     type FlyIoMachine = { Name: string; Id: string }
 
-    type FlyIoApp =
-        { OrgId: string
-          Name: string
-          Id: string
+    type ParsedFlyIoApp =
+        { App: FlyIoApp
           Volume: FlyIoVolume option
           Machine: FlyIoMachine option }
 
     let ConsumerVolumeName = "db"
+
     let ConsumerMachineName = "default"
 
     let private tryGetApp
@@ -38,43 +42,12 @@ module Deployments =
                 | Some app -> Some app |> Ok)
             (fun e -> if hasError e "NOT_FOUND" then Ok None else Error e)
 
-    let private createApp
-        (client: FlyIoGraphqlClient)
-        (orgId: NonEmptyString.T)
-        (appName: NonEmptyString.T)
-        : Task<Result<_, _>> =
-        client.CreateAppAsync(
-            { input =
-                { clientMutationId = None
-                  organizationId = NonEmptyString.value orgId
-                  runtime = None
-                  name = NonEmptyString.value appName |> Some
-                  preferredRegion = Some PreferredRegion
-                  heroku = Some false
-                  network = None
-                  appRoleId = None
-                  machines = Some true } }
-        )
-        |> TaskResult.foldResult
-            (fun a ->
-                match a.createApp with
-                | None ->
-                    mkFlyIoError "App was not returned from createApp mutation."
-                    |> Error
-                | Some a ->
-                    Ok
-                        { OrgId = NonEmptyString.value orgId
-                          Name = a.app.name
-                          Id = a.app.id
-                          Volume = None
-                          Machine = None })
-            Error
-
-    let private parseApp (flyApp: GetApp.App) =
+    let private parseApp (flyApp: GetApp.App) : ParsedFlyIoApp =
         let app =
-            { OrgId = flyApp.organization.id
-              Name = flyApp.name
-              Id = flyApp.id
+            { App =
+                { OrgId = flyApp.organization.id
+                  Name = flyApp.name
+                  Id = flyApp.id }
               Volume = None
               Machine = None }
 
@@ -106,26 +79,61 @@ module Deployments =
             | _ -> app
         | _ -> app
 
+    let private createApp
+        (client: FlyIoGraphqlClient)
+        (orgId: NonEmptyString.T)
+        (appName: NonEmptyString.T)
+        : Task<Result<FlyIoApp, _>> =
+        client.CreateAppAsync(
+            { input =
+                { clientMutationId = None
+                  organizationId = NonEmptyString.value orgId
+                  runtime = None
+                  name = NonEmptyString.value appName |> Some
+                  preferredRegion = Some PreferredRegion
+                  heroku = Some false
+                  network = None
+                  appRoleId = None
+                  machines = Some true } }
+        )
+        |> TaskResult.foldResult
+            (fun a ->
+                match a.createApp with
+                | None ->
+                    mkFlyIoError "App was not returned from createApp mutation."
+                    |> Error
+                | Some a ->
+                    Ok
+                        { OrgId = NonEmptyString.value orgId
+                          Name = a.app.name
+                          Id = a.app.id })
+            Error
+
     let private upsertApp
         (client: FlyIoGraphqlClient)
         orgId
         appName
-        : Task<Result<FlyIoApp, FlyIoError list>> =
+        : Task<Result<ParsedFlyIoApp, FlyIoError list>> =
         tryGetApp client appName
         >>= (fun result ->
             match result with
             | Some app -> parseApp app |> Ok |> Task.FromResult
-            | None -> createApp client orgId appName)
+            | None ->
+                createApp client orgId appName
+                |> TaskResult.map (fun app ->
+                    { App = app
+                      Volume = None
+                      Machine = None }))
 
     let private createVolume
         (client: FlyIoGraphqlClient)
-        (app: FlyIoApp)
+        (appId: string)
         volName
-        : Task<Result<_, _>> =
+        : Task<Result<FlyIoVolume, _>> =
         client.CreateVolumeAsync(
             { input =
                 { clientMutationId = None
-                  appId = app.Id
+                  appId = appId
                   name = volName
                   region = PreferredRegion
                   sizeGb = 3
@@ -142,74 +150,79 @@ module Deployments =
                     |> Error
                 | Some v ->
                     Ok
-                        { app with
-                            Volume =
-                                Some
-                                    { Id = v.volume.id
-                                      Name = v.volume.name } })
+                        { Id = v.volume.id
+                          Name = v.volume.name })
             Error
 
     let private upsertVolume
         (client: FlyIoGraphqlClient)
-        (app: FlyIoApp)
-        : Task<Result<FlyIoApp, FlyIoError list>> =
-        match app.Volume with
-        | Some _ -> app |> Ok |> Task.FromResult
-        | None -> createVolume client app ConsumerVolumeName
+        (parsed: ParsedFlyIoApp)
+        : Task<Result<FlyIoVolume, FlyIoError list>> =
+        match parsed.Volume with
+        | Some v -> v |> Ok |> Task.FromResult
+        | None -> createVolume client parsed.App.Id ConsumerVolumeName
 
-    let private launchMachine
-        (client: FlyIoGraphqlClient)
+    let private createMachine
+        (client: FlyIoRestClient)
         config
         (app: FlyIoApp)
-        : Task<Result<_, _>> =
-        client.LaunchMachineAsync
-            { input =
-                { clientMutationId = None
-                  appId = Some app.Id
-                  organizationId = Some app.OrgId
-                  id = None
-                  name = None
-                  region = Some PreferredRegion
-                  config = config } }
-        |> TaskResult.foldResult
-            (fun q ->
-                match q.launchMachine with
-                | None ->
-                    mkFlyIoError
-                        "Machine was not returned from launchMachine mutation."
-                    |> Error
+        : Task<Result<FlyIoMachine, _>> =
+        client.CreateMachine app.Name ConsumerMachineName config
+        |> TaskResult.map (fun m -> { Id = m.id; Name = m.name })
 
-                | Some m ->
-                    Ok
-                        { app with
-                            Machine =
-                                Some
-                                    { Id = m.machine.id
-                                      Name = m.machine.name } })
-            Error
-
+    let private updateMachine
+        (client: FlyIoRestClient)
+        config
+        (app: FlyIoApp)
+        (machine: FlyIoMachine)
+        : Task<Result<FlyIoMachine, _>> =
+        client.UpdateMachine app.Name machine.Id config
+        |> TaskResult.map (fun m -> { Id = m.id; Name = m.name })
 
     let private upsertMachine
-        (client: FlyIoGraphqlClient)
-        (appCfg: string)
-        (app: FlyIoApp)
-        : Task<Result<FlyIoApp, FlyIoError list>> =
-        match app.Machine with
-        | Some _ -> app |> Ok |> Task.FromResult // this should do an update not a noop
-        | None -> launchMachine client appCfg app
+        (client: FlyIoRestClient)
+        machineCfgBuilder
+        (parsed: ParsedFlyIoApp)
+        (vol: FlyIoVolume)
+        : Task<Result<FlyIoMachine, FlyIoError list>> =
+        let machineConfig = machineCfgBuilder parsed.App vol
+
+        match parsed.Machine with
+        | Some m -> updateMachine client machineConfig parsed.App m
+        | None -> createMachine client machineConfig parsed.App
 
 
     let deployConsumerApp
-        flyCfg
+        flyGraphqlCfg
+        flyRestCfg
         appName
-        appCfg
+        machineCfgBuilder
         : Task<Result<FlyIoApp, DomainError>> =
-        let client = mkGraphqlClient flyCfg
+        let graphqlClient = mkGraphqlClient flyGraphqlCfg
+        let restClient = mkRestClient flyRestCfg
 
-        upsertApp client flyCfg.OrgId appName
-        >>= upsertVolume client
-        >>= upsertMachine client appCfg
+        upsertApp graphqlClient flyGraphqlCfg.OrgId appName
+        >>= (fun parsed ->
+            upsertVolume graphqlClient parsed
+            >>= upsertMachine restClient machineCfgBuilder parsed
+            |> TaskResult.map (fun _ -> parsed.App))
         |> TaskResult.mapError (fun errs ->
             List.map (fun (e: FlyIoError) -> e.message) errs
             |> String.concat "\n"
             |> DomainError.UnhandledError)
+
+
+    let mkConsumerMachineCfg (_: FlyIoApp) (vol: FlyIoVolume) =
+        {| image = "flyio/fastify-functions"
+           env = dict [ "CONSUMER_SERVER_URL", "http://*:8080" ]
+           services =
+            [ {| ports =
+                  [ {| port = 80
+                       handlers = [ "http" ]
+                       force_https = true |}
+                    {| port = 443
+                       handlers = [ "http"; "tls" ]
+                       force_https = false |} ]
+                 protocol = "tcp"
+                 internal_port = 8080 |} ]
+           mounts = [ {| volume = vol.Id; path = "/db" |} ] |}
