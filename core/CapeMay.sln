@@ -52,6 +52,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Vp.FSharp.Sql.Sqlite", "src
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FlyIo", "src\FlyIo\FlyIo.fsproj", "{B336F5C9-62EB-4BCF-901A-69E7D430754D}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapeMay.Admin.TaskRunner", "src\CapeMay.Admin.TaskRunner\CapeMay.Admin.TaskRunner.fsproj", "{BC26614D-FEFB-41CB-AC22-68D799411860}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{B336F5C9-62EB-4BCF-901A-69E7D430754D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B336F5C9-62EB-4BCF-901A-69E7D430754D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B336F5C9-62EB-4BCF-901A-69E7D430754D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC26614D-FEFB-41CB-AC22-68D799411860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC26614D-FEFB-41CB-AC22-68D799411860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC26614D-FEFB-41CB-AC22-68D799411860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC26614D-FEFB-41CB-AC22-68D799411860}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F40A9B8C-CDF7-4DA2-B839-C1AECBAE7007} = {E255F0CB-3840-4FA8-8758-0E90AAD27D2C}
