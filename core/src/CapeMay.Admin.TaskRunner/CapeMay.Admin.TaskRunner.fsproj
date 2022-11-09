@@ -8,6 +8,8 @@
     <Content Include="paket.references" />
     <Compile Include="Config.fs" />
     <Compile Include="CompositionRoot.fs" />
+    <Compile Include="Messages.fs" />
+    <Compile Include="Worker.fs" />
     <Compile Include="Consumer.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>

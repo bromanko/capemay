@@ -1,18 +1,28 @@
 namespace CapeMay.Admin.Server
 
+open CapeMay.Admin.Domain
 open FsConfig
 
 type ServerConfig =
     { [<DefaultValue("http://*:8080")>]
       Url: string }
 
-type DbConfig =
-    { ConnectionString: string }
+type DbConfig = { ConnectionString: string }
+
+type FlyIoConfig =
+    { [<DefaultValue(FlyIo.RestBaseAddress)>]
+      RestApiBase: string
+      [<DefaultValue(FlyIo.GraphqlBaseAddress)>]
+      GraphqlBase: string
+      Token: string }
 
 module Config =
     [<Convention("ADMIN")>]
     [<RequireQualifiedAccess>]
-    type T = { Server: ServerConfig; Db: DbConfig }
+    type T =
+        { Server: ServerConfig
+          Db: DbConfig
+          FlyIo: FlyIoConfig }
 
     let private failWithInvalidConfig error =
         match error with
