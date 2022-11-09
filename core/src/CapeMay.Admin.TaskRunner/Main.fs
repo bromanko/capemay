@@ -5,13 +5,14 @@ open Microsoft.Extensions.DependencyInjection
 
 module Main =
     let mkHostBuilder _ =
-    let hostBuilder = Host.CreateDefaultBuilder()
+        let hostBuilder = Host.CreateDefaultBuilder()
 
-    hostBuilder.ConfigureServices(fun ctx (services: IServiceCollection) ->
-        services.AddHostedService<ConsumerHostedService>() |> ignore)
-    |> ignore
+        hostBuilder.ConfigureServices(fun ctx (services: IServiceCollection) ->
+            services.AddHostedService<ConsumerHostedService>() |> ignore)
+        |> ignore
 
-    hostBuilder
+        hostBuilder
+
     [<EntryPoint>]
     let main _ =
         let compRoot = Config.loadConfig () |> CompositionRoot.defaultRoot

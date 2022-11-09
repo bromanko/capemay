@@ -9,6 +9,7 @@ type private ConsumerMessage = | Dequeue
 type Consumer(?sleepMs: TimeSpan) =
     let sleepMs = defaultArg sleepMs (TimeSpan.FromSeconds 3)
 
+
     let worker = new Worker()
 
     let dequeue () = Task Noop
@@ -21,10 +22,8 @@ type Consumer(?sleepMs: TimeSpan) =
 
                     match msg with
                     | Control (Stop reply) ->
-                        printfn "Consumer received request to stop"
                         do! worker.Stop()
                         reply.Reply()
-                        printfn "Stopped consumer"
                     | Task Dequeue ->
                         try
                             dequeue () |> worker.Exec
@@ -38,13 +37,25 @@ type Consumer(?sleepMs: TimeSpan) =
 
             loop ())
 
-    member _.Start() = Task Dequeue |> consumer.Post
+    let timer =
+        new Timer(
+            TimerCallback(fun _ -> Task Dequeue |> consumer.Post),
+            null,
+            Timeout.Infinite,
+            Timeout.Infinite
+        )
+
+    member _.Start() =
+        timer.Change(TimeSpan.Zero, sleepMs) |> ignore
 
     member _.Stop() =
+        timer.Change(Timeout.Infinite, Timeout.Infinite) |> ignore
         consumer.PostAndAsyncReply(fun reply -> Stop reply |> Control)
 
     interface IDisposable with
         member this.Dispose() =
+            (timer :> IDisposable).Dispose()
+
             (consumer :> IDisposable).Dispose()
             (worker :> IDisposable).Dispose()
 
