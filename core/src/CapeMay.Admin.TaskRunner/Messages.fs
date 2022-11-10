@@ -4,6 +4,6 @@ type ControlMessage = Stop of AsyncReplyChannel<unit>
 
 type WorkerMessage<'TMsg> =
     | Control of ControlMessage
-    | Task of 'TMsg
+    | Data of 'TMsg
 
 type AdminTask = | Noop

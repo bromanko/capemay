@@ -16,7 +16,7 @@ type Worker() =
                             printfn "Stopping worker"
                             reply.Reply()
                             printfn "Stopped worker"
-                    | Task t ->
+                    | Data t ->
                         match t with
                         | Noop -> printfn "Worker Received a message."
 

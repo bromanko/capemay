@@ -6,13 +6,14 @@ open Microsoft.Extensions.Hosting
 
 type private ConsumerMessage = | Dequeue
 
-type Consumer(?sleepMs: TimeSpan) =
+
+type Consumer(dequeueTask: DequeueFn<_>, ?sleepMs: TimeSpan) =
     let sleepMs = defaultArg sleepMs (TimeSpan.FromSeconds 3)
 
 
     let worker = new Worker()
 
-    let dequeue () = Task Noop
+    let dequeue () = Data Noop
 
     let consumer =
         MailboxProcessor.Start(fun inbox ->
@@ -24,11 +25,9 @@ type Consumer(?sleepMs: TimeSpan) =
                     | Control (Stop reply) ->
                         do! worker.Stop()
                         reply.Reply()
-                    | Task Dequeue ->
+                    | Data Dequeue ->
                         try
-                            dequeue () |> worker.Exec
-                            do! Async.Sleep sleepMs
-                            Task Dequeue |> inbox.Post
+                            dequeueTask () |> Data |> worker.Exec
                         with error ->
                             printfn $"{error}"
 
@@ -39,7 +38,7 @@ type Consumer(?sleepMs: TimeSpan) =
 
     let timer =
         new Timer(
-            TimerCallback(fun _ -> Task Dequeue |> consumer.Post),
+            TimerCallback(fun _ -> Data Dequeue |> consumer.Post),
             null,
             Timeout.Infinite,
             Timeout.Infinite
@@ -60,8 +59,8 @@ type Consumer(?sleepMs: TimeSpan) =
             (worker :> IDisposable).Dispose()
 
 
-type ConsumerHostedService() =
-    let consumer = new Consumer()
+type ConsumerHostedService(dequeueFn: DequeueFn<_>) =
+    let consumer = new Consumer(dequeueFn)
 
     interface IHostedService with
         member _.StartAsync(_: CancellationToken) =
