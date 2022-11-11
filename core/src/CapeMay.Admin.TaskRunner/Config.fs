@@ -5,12 +5,18 @@ open CapeMay.Admin.Domain
 
 type DbConfig = { ConnectionString: string }
 
+[<StructuredFormatDisplay "{FormatDisplay}">]
 type FlyIoConfig =
     { [<DefaultValue(FlyIo.RestBaseAddress)>]
       RestApiBase: string
       [<DefaultValue(FlyIo.GraphqlBaseAddress)>]
       GraphqlBase: string
       Token: string }
+
+    member this.FormatDisplay =
+        {| RestApiBase = this.RestApiBase
+           GraphqlBase = this.GraphqlBase
+           Token = "********" |}
 
 module Config =
     [<Convention("ADMIN")>]
