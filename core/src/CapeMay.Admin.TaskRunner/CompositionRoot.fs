@@ -1,15 +1,16 @@
 namespace CapeMay.Admin.TaskRunner
 
-type DequeueFn<'t> = unit -> 't
+open CapeMay.Admin.Domain.Commands
+open CapeMay.Domain
+
+type DequeueFn = unit -> Result<AdminTask option, DomainError>
 
 [<RequireQualifiedAccess>]
 module CompositionRoot =
     type T =
         { Config: Config.T
-          DequeueFn: DequeueFn<AdminTask> }
-
-    let private dequeueFromDb connStr = (fun _ -> Noop)
+          DequeueFn: DequeueFn }
 
     let defaultRoot cfg =
         { Config = cfg
-          DequeueFn = dequeueFromDb cfg.Db.ConnectionString }
+          DequeueFn = fun () -> AdminTasks.getNextTask cfg.Db.ConnectionString }

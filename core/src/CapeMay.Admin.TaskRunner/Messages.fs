@@ -6,4 +6,3 @@ type WorkerMessage<'TMsg> =
     | Control of ControlMessage
     | Data of 'TMsg
 
-type AdminTask = | Noop

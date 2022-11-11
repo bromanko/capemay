@@ -9,8 +9,7 @@ module TenantId =
     [<Literal>]
     let private idPrefix = "ten"
 
-    let private idPrefixNes =
-        (NonEmptyString.parse idPrefix).Value
+    let private idPrefixNes = (NonEmptyString.parse idPrefix).Value
 
     let create () = Id.mkId idPrefixNes
 
@@ -22,6 +21,7 @@ module Fqdn =
     type T =
         private
         | Fqdn of string
+
         override this.ToString() =
             match this with
             | Fqdn s -> s
@@ -43,3 +43,8 @@ type CreateTenant = { Id: TenantId.T; Fqdn: Fqdn.T }
 type Tenant = { Id: TenantId.T; Fqdn: Fqdn.T }
 
 type TenantList = { Tenants: Tenant list }
+
+type AsyncTask =
+    { Id: int64
+      Name: NonEmptyString.T
+      Data: NonEmptyString.T }

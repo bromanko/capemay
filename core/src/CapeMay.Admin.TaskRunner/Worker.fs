@@ -1,6 +1,7 @@
 namespace CapeMay.Admin.TaskRunner
 
 open System
+open CapeMay.Admin.Domain.Commands
 
 type Worker() =
     let inner =
@@ -13,9 +14,7 @@ type Worker() =
                     | Control c ->
                         match c with
                         | Stop reply ->
-                            printfn "Stopping worker"
                             reply.Reply()
-                            printfn "Stopped worker"
                     | Data t ->
                         match t with
                         | Noop -> printfn "Worker Received a message."
@@ -26,7 +25,7 @@ type Worker() =
 
             loop ())
 
-    member _.Exec = inner.Post
+    member _.Exec(msg: AdminTask) = msg |> Data |> inner.Post
 
     member _.Stop() =
         inner.PostAndAsyncReply(fun reply -> Stop reply |> Control)

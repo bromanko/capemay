@@ -21,6 +21,7 @@
     <Compile Include="Commands\Deployments.fs" />
     <Compile Include="Commands\Tenants.fs" />
     <Compile Include="Commands\Db.fs" />
+    <Compile Include="Commands\AdminTasks.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

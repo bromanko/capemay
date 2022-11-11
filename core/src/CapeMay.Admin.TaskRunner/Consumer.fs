@@ -2,18 +2,46 @@ namespace CapeMay.Admin.TaskRunner
 
 open System
 open System.Threading
+open System.Threading.Tasks
+open CapeMay.Admin.Domain.Commands
+open CapeMay.Domain
 open Microsoft.Extensions.Hosting
+open FsToolkit.ErrorHandling.Operator.ResultOption
+open FsToolkit.ErrorHandling
+open FSharp.Control
+open Microsoft.Extensions.Logging
+open Microsoft.FSharp.Reflection
 
 type private ConsumerMessage = | Dequeue
 
-
-type Consumer(dequeueTask: DequeueFn<_>, ?sleepMs: TimeSpan) =
+type Consumer
+    (
+        dequeueTask: DequeueFn,
+        log: ILogger<Consumer>,
+        ?sleepMs: TimeSpan
+    ) =
     let sleepMs = defaultArg sleepMs (TimeSpan.FromSeconds 3)
-
 
     let worker = new Worker()
 
-    let dequeue () = Data Noop
+    let taskName (t: AdminTask) =
+        match FSharpValue.GetUnionFields(t, typeof<AdminTask>) with
+        | case, _ -> case.Name
+
+    let dequeue () =
+        try
+            dequeueTask ()
+            |> ResultOption.map (fun t ->
+                log.LogInformation $"Executing {taskName t} task."
+                worker.Exec t)
+            |> Result.teeError (fun e ->
+                match e with
+                | UnhandledException ex ->
+                    log.LogError(ex, "Error dequeueing task.")
+                | _ -> log.LogError $"Error dequeueing task. {e}")
+            |> ignore
+        with ex ->
+            log.LogError(ex, "Error dequeueing task.")
 
     let consumer =
         MailboxProcessor.Start(fun inbox ->
@@ -26,11 +54,7 @@ type Consumer(dequeueTask: DequeueFn<_>, ?sleepMs: TimeSpan) =
                         do! worker.Stop()
                         reply.Reply()
                     | Data Dequeue ->
-                        try
-                            dequeueTask () |> Data |> worker.Exec
-                        with error ->
-                            printfn $"{error}"
-
+                        dequeue ()
                         return! loop ()
                 }
 
@@ -59,16 +83,23 @@ type Consumer(dequeueTask: DequeueFn<_>, ?sleepMs: TimeSpan) =
             (worker :> IDisposable).Dispose()
 
 
-type ConsumerHostedService(dequeueFn: DequeueFn<_>) =
-    let consumer = new Consumer(dequeueFn)
+type ConsumerHostedService(dequeueFn: DequeueFn, log: ILogger<Consumer>) =
+    let consumer = new Consumer(dequeueFn, log)
 
     interface IHostedService with
         member _.StartAsync(_: CancellationToken) =
+            log.LogInformation "Starting task consumer..."
             consumer.Start()
-            System.Threading.Tasks.Task.CompletedTask
+            log.LogInformation "Task consumer started."
+            Task.CompletedTask
 
         member _.StopAsync(_: CancellationToken) =
-            consumer.Stop() |> Async.StartAsTask :> System.Threading.Tasks.Task
+            log.LogInformation "Stopping task consumer..."
+
+            consumer.Stop()
+            |> Async.map (fun _ -> log.LogInformation "Task consumer stopped.")
+            |> Async.StartAsTask
+            :> Task
 
     interface IDisposable with
         member _.Dispose() = (consumer :> IDisposable).Dispose()
